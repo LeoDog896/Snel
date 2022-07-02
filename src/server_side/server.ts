@@ -153,7 +153,7 @@ export async function DevServer({
 
   setTimeout(async () => await open(`http://localhost:${port}`), 500);
 
-  window.addEventListener("unload", () => {
+  globalThis.addEventListener("unload", () => {
     compiler.postMessage({
       end: true,
     });

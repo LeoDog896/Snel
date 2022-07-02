@@ -91,9 +91,9 @@ export function HelpCommand({ command, flags }: HelpCommandParams) {
   );
 }
 
-export const leven = (left: string, right: string) => {
-  const array: any[] = [];
-  const charCodeCache: any[] = [];
+export const leven = (left: string, right: string): number => {
+  const array: number[] = [];
+  const charCodeCache: number[] = [];
 
   if (left === right) {
     return 0;
@@ -134,7 +134,7 @@ export const leven = (left: string, right: string) => {
   }
 
   let bCharCode;
-  let result;
+  let result = 0;
   let temp;
   let temp2;
   let i = 0;

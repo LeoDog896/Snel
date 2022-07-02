@@ -6,7 +6,7 @@ import { ServerProps } from "./types.ts";
 
 let Module: any;
 
-async function DeployServer({ clientPath, mode }: ServerProps) {
+function DeployServer({ clientPath, mode }: ServerProps) {
   const server = new Application();
 
   server.use(async ({ response, request }) => {

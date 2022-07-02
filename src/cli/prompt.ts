@@ -83,7 +83,7 @@ export function notFoundConfig() {
   ).message;
 }
 
-export function serverLog({ dirName, port, localNet }: any) {
+export function serverLog({ dirName, port, localNet }: { dirName: string, port: string | number, localNet: string }) {
   console.clear();
   console.log(`
   ${colors.green("Compiled successfully!")}

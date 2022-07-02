@@ -43,36 +43,7 @@ It is a `tool/framework` to compile .svelte component to javascript files to cre
 the only thing you need is to run the installation command.
 
 ```console
-deno run --allow-run --allow-read https://deno.land/x/snel/install.ts
-```
-
-> wait wait! Why should I run a script instead of using deno install to install Snel?
-
-Snel uses several tools to create a better development experience, some of these tools are:
-
-- [**trex**](https://github.com/crewdevio/Trex) to handle scripts and compilation in watch mode.
-- [**bundler**](https://deno.land/x/bundler) minify and package all files for production
-
-the [install.ts](https://github.com/crewdevio/Snel/blob/main/install.ts) file is responsible for installing all these tools so that you only worry about creating your application.
-
-if you not want install snel, you can execute it using [trex](https://deno.land/x/trex)
-
-```console
-trex exec snel create [project name]
-```
-
-> **note**: if you decide use snel using trex exec you need to change this scripts inside run.json file
-
-```javascript
-{
-  "scripts": {
-    "start": "trex exec snel serve",
-    "build": "trex exec snel build"
-  },
-  "files": [
-    "./src"
-  ]
-}
+deno install --allow-run --allow-read --name=snel -q -A -f -r --no-check --unstable https://deno.land/x/snel/cli.ts
 ```
 
 ## how to create a project with Snel?

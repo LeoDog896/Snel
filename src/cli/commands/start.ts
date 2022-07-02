@@ -65,17 +65,15 @@ export default async function StartDev() {
 
     let toWatch: string[] = ["./src", "./public/index.html", "./public/global.css"];
 
-    type Run = { scripts: { [key: string]: string }, files?: string[] };
+    type Run = { tasks: { [key: string]: string }, files?: string[] };
 
-    if (await exists("./run.json")) {
-      try {
-        const run = JSON.parse(await Deno.readTextFile("./run.json")) as Run;
+    try {
+      const run = JSON.parse(await Deno.readTextFile("./deno.json")) as Run;
 
-        if (run?.files && run.files.length > 0) {
-          toWatch = run.files?.filter((file) => existsSync(file));
-        }
-      } catch (e) {/* do nothing  */}
-    }
+      if (run?.files && run.files.length > 0) {
+        toWatch = run.files?.filter((file) => existsSync(file));
+      }
+    } catch (e) {/* do nothing  */}
 
     // hot reloading
     await HotReload(toWatch, (port + 1), async () => {

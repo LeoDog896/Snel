@@ -30,9 +30,8 @@ export async function CreateProject(options: CreateProjectOptions) {
 
   const scripts = {
     domScript: {
-      __internal__: "snel dev",
-      dev: "trex run __internal__",
-      watch: "trex run __internal__ --watch",
+      dev: "snel dev",
+      watch: "snel dev --watch",
     },
     commonScript: {
       start: "snel serve",
@@ -80,11 +79,11 @@ export async function CreateProject(options: CreateProjectOptions) {
         source: gitIgnore("dist"),
       },
       {
-        name: "run.json",
+        name: "deno.json",
         path: projectRoot,
         source: JSON.stringify(
           {
-            scripts: scripts.build(),
+            tasks: scripts.build(),
             files:
               mode === "dom"
                 ? ["./src", "./public/index.html", "./public/global.css"]
@@ -155,21 +154,21 @@ export async function CreateProject(options: CreateProjectOptions) {
   Success! Created ${projectName} at ${join(Deno.cwd(), projectName)}
   Inside that directory, you can run several commands:
 
-    ${colors.blue("trex run start")} (experimental hot reloading)
+    ${colors.blue("deno task start")} (experimental hot reloading)
       Starts the development server.
 
-    ${colors.blue("trex run build")}
+    ${colors.blue("deno task build")}
       Bundles the app into static files for production.
 
-    ${colors.blue("trex run dev")}
+    ${colors.blue("deno task dev")}
       Compile the project in dev mode.
 
-    ${colors.blue("trex run watch")}
+    ${colors.blue("deno task watch")}
       Compile the project in dev mode but using watch mode.
 
   We suggest that you begin by typing:
 
     ${colors.blue("cd")} ${projectName}
-    ${colors.blue("trex run start")}
+    ${colors.blue("deno task start")}
   `);
 }

@@ -166,6 +166,7 @@ function parser(type: any, deep: number): string {
     case "function":
       return `${type.toString()}`;
 
+    // deno-lint-ignore no-fallthrough
     case "object":
       if (type instanceof Object && !Array.isArray(type)) {
         return ToString(type, deep * 2);

@@ -14,6 +14,8 @@ export interface CreateProjectOptions {
   /** port number for develoment server */
   port: number;
   projectName: string;
+  /** True to create the project on the working dir (./) */
+  workingFolder: boolean;
   /** mode to build */
   mode: "ssr" | "dom" | "ssg";
 }

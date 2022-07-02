@@ -35,7 +35,16 @@ const instructs = {
       });
     }
 
-    else await CreateProject({ ...PromptConfig(), projectName: Args[1] });
+    else {
+      // Project name should either be Args[1] or the name of Deno's current working directory
+      const projectName = Args.length > 1 ? Args[1] : Deno.cwd().split("/").pop();
+
+      if (projectName == undefined) {
+        throw Error("Odd working directory. Try again with a project name (snel create [projectName])");
+      }
+
+      await CreateProject({ ...PromptConfig(), projectName, workingFolder: Args.length == 1 });
+    }
   },
   // compile an bundle for production
   async build() {

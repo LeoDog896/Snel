@@ -23,10 +23,12 @@ import { colors } from "../../imports/fmt.ts";
 import { join } from "../../imports/path.ts";
 
 export async function CreateProject(options: CreateProjectOptions) {
-  const { root, port, projectName, mode } = options;
+  const { root, port, projectName, mode, workingFolder } = options;
 
   const startTime = Date.now();
-  const projectRoot = `${Deno.cwd()}/${projectName}`;
+  const projectRoot = workingFolder ? Deno.cwd() : `${Deno.cwd()}/${projectName}`;
+
+  if (!workingFolder) await Deno.mkdir(projectRoot, { recursive: true });
 
   const scripts = {
     domScript: {
@@ -102,21 +104,17 @@ export async function CreateProject(options: CreateProjectOptions) {
     domDir: [
       {
         name: "public",
-        path: `${Deno.cwd()}/${projectName}`,
+        path: projectRoot,
       },
     ],
     commonDirs: [
       {
-        name: projectName,
-        path: Deno.cwd(),
-      },
-      {
         name: "src",
-        path: `${Deno.cwd()}/${projectName}`,
+        path: projectRoot,
       },
       {
         name: "components",
-        path: `${Deno.cwd()}/${projectName}/src`,
+        path: `${projectRoot}/src`,
       },
     ],
     files() {
@@ -167,8 +165,7 @@ export async function CreateProject(options: CreateProjectOptions) {
       Compile the project in dev mode but using watch mode.
 
   We suggest that you begin by typing:
-
-    ${colors.blue("cd")} ${projectName}
+    ${workingFolder ? `` : `\n    ${colors.blue("cd")} ${projectName}`}
     ${colors.blue("deno task start")}
   `);
 }

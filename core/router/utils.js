@@ -2,7 +2,7 @@
  * Adapted from https://github.com/reach/router/blob/b60e6dd781d5d3a4bdaaf4de665649c0f6a7e78d/src/lib/utils.js
  *
  * https://github.com/reach/router/blob/master/LICENSE
- * */
+ */
 
 const paramRe = /^:(.+)/;
 
@@ -82,20 +82,20 @@ function rankRoute(route, index) {
   const score = route.default
     ? 0
     : segmentize(route.path).reduce((score, segment) => {
-        score += SEGMENT_POINTS;
+      score += SEGMENT_POINTS;
 
-        if (isRootSegment(segment)) {
-          score += ROOT_POINTS;
-        } else if (isDynamic(segment)) {
-          score += DYNAMIC_POINTS;
-        } else if (isSplat(segment)) {
-          score -= SEGMENT_POINTS + SPLAT_PENALTY;
-        } else {
-          score += STATIC_POINTS;
-        }
+      if (isRootSegment(segment)) {
+        score += ROOT_POINTS;
+      } else if (isDynamic(segment)) {
+        score += DYNAMIC_POINTS;
+      } else if (isSplat(segment)) {
+        score -= SEGMENT_POINTS + SPLAT_PENALTY;
+      } else {
+        score += STATIC_POINTS;
+      }
 
-        return score;
-      }, 0);
+      return score;
+    }, 0);
 
   return { route, score, index };
 }
@@ -313,9 +313,13 @@ function resolve(to, base) {
  * @param {string} path
  */
 function combinePaths(basepath, path) {
-  return `${stripSlashes(
-    path === "/" ? basepath : `${stripSlashes(basepath)}/${stripSlashes(path)}`
-  )}/`;
+  return `${
+    stripSlashes(
+      path === "/"
+        ? basepath
+        : `${stripSlashes(basepath)}/${stripSlashes(path)}`,
+    )
+  }/`;
 }
 
 /**
@@ -341,11 +345,11 @@ function hostMatches(anchor) {
 }
 
 export {
-  stripSlashes,
-  pick,
-  match,
-  resolve,
   combinePaths,
-  shouldNavigate,
   hostMatches,
+  match,
+  pick,
+  resolve,
+  shouldNavigate,
+  stripSlashes,
 };

@@ -3,15 +3,14 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 //@ts-ignore
 import {
-  VERSION,
   compile as svelteCompile,
   parse as svelteParse,
   preprocess as sveltePreprocess,
+  VERSION,
   walk as svelteWalk,
 } from "../imports/compiler.ts";
 
@@ -25,22 +24,22 @@ export function compile(source: string, options: compileOptions) {
     const { name, start, end, pos, filename, frame, stack, message } = error;
 
     throw {
-        message,
-        stack,
-        file: filename,
-        errorName: name,
-        start,
-        end,
-        pos,
-        frame,
-      }
+      message,
+      stack,
+      file: filename,
+      errorName: name,
+      start,
+      end,
+      pos,
+      frame,
+    };
   }
 }
 
 export function preprocess(
   source: string,
   preprocessor: PreprocessorGroup | PreprocessorGroup[],
-  options?: { filename?: string }
+  options?: { filename?: string },
 ) {
   return sveltePreprocess(source, preprocessor, options);
 }

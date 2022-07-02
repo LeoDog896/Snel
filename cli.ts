@@ -3,7 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 import { common, resolverConfigFile, showHelp } from "./src/shared/utils.ts";
@@ -33,17 +32,23 @@ const instructs = {
         },
         flags: [{ alias: flags.help, description: "show command help" }],
       });
-    }
-
-    else {
+    } else {
       // Project name should either be Args[1] or the name of Deno's current working directory
-      const projectName = Args.length > 1 ? Args[1] : Deno.cwd().split("/").pop();
+      const projectName = Args.length > 1
+        ? Args[1]
+        : Deno.cwd().split("/").pop();
 
       if (projectName == undefined) {
-        throw Error("Odd working directory. Try again with a project name (snel create [projectName])");
+        throw Error(
+          "Odd working directory. Try again with a project name (snel create [projectName])",
+        );
       }
 
-      await CreateProject({ ...PromptConfig(), projectName, workingFolder: Args.length == 1 });
+      await CreateProject({
+        ...PromptConfig(),
+        projectName,
+        workingFolder: Args.length == 1,
+      });
     }
   },
   // compile an bundle for production
@@ -56,10 +61,7 @@ const instructs = {
         },
         flags: [{ alias: flags.help, description: "show command help" }],
       });
-    }
-
-    else if (await resolverConfigFile()) await Build();
-
+    } else if (await resolverConfigFile()) await Build();
     else notFoundConfig();
   },
   // compile in dev mode
@@ -72,16 +74,12 @@ const instructs = {
         },
         flags: [{ alias: flags.help, description: "show command help" }],
       });
-    }
-
-    else if (await resolverConfigFile()) {
+    } else if (await resolverConfigFile()) {
       console.time(colors.green("Compiled successfully in"));
       await RollupBuild({ dir: common.dom.dir, entryFile: common.entryFile });
       console.timeEnd(colors.green("Compiled successfully in"));
       Deno.exit(0);
-    }
-
-    else notFoundConfig();
+    } else notFoundConfig();
   },
   // start dev server
   async serve() {
@@ -93,10 +91,7 @@ const instructs = {
         },
         flags: [{ alias: flags.help, description: "show command help" }],
       });
-    }
-
-    else if (await resolverConfigFile()) await StartDev();
-
+    } else if (await resolverConfigFile()) await StartDev();
     else notFoundConfig();
   },
 };
@@ -106,9 +101,7 @@ async function Main() {
     // execute instructions
     if (instructs[command]) {
       return await instructs[command]();
-    }
-
-    // show version
+    } // show version
     else if (flags.version.includes(Args[0])) {
       console.log(
         colors.green(
@@ -119,13 +112,10 @@ async function Main() {
           }\ndeno: ${colors.yellow(Deno.version.deno)}`,
         ),
       );
-    }
-    // show help
+    } // show help
     else if (flags.help.includes(Args[0]) || !Args[0]) {
       showHelp();
-    }
-
-    else {
+    } else {
       CommandNotFound({
         commands: [
           keyWords.build,

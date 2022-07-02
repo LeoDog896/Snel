@@ -3,7 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 import * as esbuild from "../../imports/esbuild.ts";
@@ -28,8 +27,8 @@ export async function tsTranspiler(source: string, filename: string) {
       colors.yellow(
         `Transpiling typescript: ${
           colors.red(error.message) ?? ""
-        } in component ${colors.yellow(filename)}`
-      )
+        } in component ${colors.yellow(filename)}`,
+      ),
     ).message;
   }
 }

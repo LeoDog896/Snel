@@ -26,16 +26,16 @@ export function CommandNotFound({ commands, flags }: CommandNotFoundParams) {
   if (!commands.includes(command)) {
     console.log(
       red("Command not found:\n"),
-
       green(
-        `\n${red("snel")} ${yellow(
-          command ?? "empty command"
-        )}: unknown command\n`
+        `\n${red("snel")} ${
+          yellow(
+            command ?? "empty command",
+          )
+        }: unknown command\n`,
       ),
-
       green(
-        `\nuse ${red("snel")} ${yellow("--help")} to see available commands\n`
-      )
+        `\nuse ${red("snel")} ${yellow("--help")} to see available commands\n`,
+      ),
     );
 
     console.log(didYouMean(command, commands));
@@ -46,18 +46,20 @@ export function CommandNotFound({ commands, flags }: CommandNotFoundParams) {
   if (!flags.includes(flag)) {
     console.log(
       red("Command flag not found:\n"),
-
       green(
-        `\n${red("snel")} ${yellow(command ?? "empty command")}  ${yellow(
-          flag
-        )}: unknown command flag\n`
+        `\n${red("snel")} ${yellow(command ?? "empty command")}  ${
+          yellow(
+            flag,
+          )
+        }: unknown command flag\n`,
       ),
-
       green(
-        `\nuse ${red("snel")} ${yellow(command ?? "empty command")} ${yellow(
-          "--help"
-        )} to see available command flags\n`
-      )
+        `\nuse ${red("snel")} ${yellow(command ?? "empty command")} ${
+          yellow(
+            "--help",
+          )
+        } to see available command flags\n`,
+      ),
     );
 
     console.log(didYouMean(flag, flags, command));
@@ -69,25 +71,25 @@ export function CommandNotFound({ commands, flags }: CommandNotFoundParams) {
 export function HelpCommand({ command, flags }: HelpCommandParams) {
   console.log(
     green(`${red("action: ")} ${command.description}\n`),
-
     yellow("\nuse:\n"),
-
     green(
-      `snel [${command.alias.map((cmd) => yellow(cmd))}]  ${flags.map((flag) =>
-        `[${flag.alias.map((name) => yellow(name))}]`.replace(",", ", ")
-      )}\n`.replace(",", " or ")
+      `snel [${command.alias.map((cmd) => yellow(cmd))}]  ${
+        flags.map((flag) =>
+          `[${flag.alias.map((name) => yellow(name))}]`.replace(",", ", ")
+        )
+      }\n`.replace(",", " or "),
     ),
-
     yellow(flags.length ? "\nflags:\n" : ""),
-
     green(
-      `${flags.map(
-        (flag) =>
-          ` ${red("*")} [${flag.alias.map((sub) => yellow(sub))}] : ${
-            flag.description
-          }\n`
-      )}`.replaceAll(",", " ")
-    )
+      `${
+        flags.map(
+          (flag) =>
+            ` ${red("*")} [${
+              flag.alias.map((sub) => yellow(sub))
+            }] : ${flag.description}\n`,
+        )
+      }`.replaceAll(",", " "),
+    ),
   );
 }
 
@@ -154,14 +156,13 @@ export const leven = (left: string, right: string): number => {
       temp2 = bCharCode === charCodeCache[i] ? temp : temp + 1;
       temp = array[i];
 
-      result = array[i] =
-        temp > result
-          ? temp2 > result
-            ? result + 1
-            : temp2
-          : temp2 > temp
-          ? temp + 1
-          : temp2;
+      result =
+        array[i] =
+          temp > result
+            ? temp2 > result ? result + 1 : temp2
+            : temp2 > temp
+            ? temp + 1
+            : temp2;
     }
   }
 

@@ -1,4 +1,4 @@
-import { shouldNavigate, hostMatches } from "./utils.js";
+import { hostMatches, shouldNavigate } from "./utils.js";
 import { navigate } from "./history.js";
 
 /**

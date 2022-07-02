@@ -3,10 +3,10 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
-export const indexHtml = async (script: string) => `<!DOCTYPE html>
+export const indexHtml = async (script: string) =>
+  `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -155,17 +155,18 @@ export const gitIgnore = (dir: string) =>
 
 export const mainjs = (
   root: string,
-  mode: "dom" | "ssr" | "ssg"
-) => `import ${root} from "./${root}.svelte";
+  mode: "dom" | "ssr" | "ssg",
+) =>
+  `import ${root} from "./${root}.svelte";
 
 ${
-  mode === "dom"
-    ? `const ${root.toLowerCase()} = new ${root}({
+    mode === "dom"
+      ? `const ${root.toLowerCase()} = new ${root}({
   target: document.querySelector("#__snel"),
   props: {},
 });
 `
-    : `export default ${root};`
-}`;
+      : `export default ${root};`
+  }`;
 
 export const config = (object: string) => `export default ${object};\n`;

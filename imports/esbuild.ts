@@ -15,7 +15,6 @@ export type {
   Loader,
   Location,
   LogLevel,
-  WatchMode,
   Message,
   Metafile,
   Note,
@@ -39,4 +38,5 @@ export type {
   TransformFailure,
   TransformOptions,
   TransformResult,
+  WatchMode,
 } from "https://deno.land/x/esbuild@v0.12.15/mod.d.ts";

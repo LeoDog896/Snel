@@ -3,16 +3,15 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
-import { Server, Packet } from "../../imports/wocket.ts";
+import { Packet, Server } from "../../imports/wocket.ts";
 import { join } from "../../imports/path.ts";
 
 export async function HotReload(
   toWatch: string | string[],
   port: number,
-  action: () => Promise<void> | void
+  action: () => Promise<void> | void,
 ) {
   const server = new Server();
 
@@ -29,7 +28,9 @@ export async function HotReload(
   let cancellation = false;
   const events = ["remove", "modify"];
 
-  for await (const { kind: eventKind } of Deno.watchFs(toWatch, { recursive: true })) {
+  for await (
+    const { kind: eventKind } of Deno.watchFs(toWatch, { recursive: true })
+  ) {
     if (events.includes(eventKind)) {
       if (kind !== eventKind) {
         server.to("Reload", "compiling");
@@ -62,7 +63,7 @@ export async function HotReload(
                 start,
                 end,
                 pos,
-              })
+              }),
             );
 
             // cancellation debounce

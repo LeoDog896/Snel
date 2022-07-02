@@ -3,10 +3,9 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
-import type { ServerProps, DevServerProps } from "./types.ts";
+import type { DevServerProps, ServerProps } from "./types.ts";
 import { HotReload } from "../dev_server/hotReloading.ts";
 import { join, toFileUrl } from "../../imports/path.ts";
 import { RollupBuild } from "../../compiler/build.ts";
@@ -39,7 +38,7 @@ export async function Server({
           response.headers.set("content-type", "application/javascript");
 
           const client = new TextDecoder("utf-8").decode(
-            await Deno.readFile(join(Deno.cwd(), clientPath!))
+            await Deno.readFile(join(Deno.cwd(), clientPath!)),
           );
 
           response.body = client;
@@ -121,9 +120,8 @@ export async function DevServer({
   plugins,
   dirName,
   localNet,
-  ipv4
+  ipv4,
 }: DevServerProps) {
-
   const compiler = new Worker(
     new URL("./BuilderWorker.js", import.meta.url).href,
     {
@@ -137,7 +135,7 @@ export async function DevServer({
           net: true,
         },
       },
-    }
+    },
   );
 
   compiler.postMessage({
@@ -146,7 +144,7 @@ export async function DevServer({
     path,
     mode,
     start: true,
-    ipv4
+    ipv4,
   });
 
   serverLog({ port, dirName, localNet });
@@ -177,7 +175,7 @@ export async function DevServer({
       port: Number(port),
       path,
       mode,
-      start: true
+      start: true,
     });
   });
 }

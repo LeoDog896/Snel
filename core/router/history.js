@@ -2,7 +2,7 @@
  * Adapted from https://github.com/reach/router/blob/b60e6dd781d5d3a4bdaaf4de665649c0f6a7e78d/src/lib/history.js
  *
  * https://github.com/reach/router/blob/master/LICENSE
- * */
+ */
 
 function getLocation(source) {
   return {
@@ -100,9 +100,9 @@ function createMemorySource(initialPathname = "/") {
 const canUseDOM = Boolean(
   typeof window !== "undefined" &&
     window.document &&
-    window.document.createElement
+    window.document.createElement,
 );
 const globalHistory = createHistory(canUseDOM ? window : createMemorySource());
 const { navigate } = globalHistory;
 
-export { globalHistory, navigate, createHistory, createMemorySource };
+export { createHistory, createMemorySource, globalHistory, navigate };

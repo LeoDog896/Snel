@@ -1,9 +1,8 @@
-import { serve, serveTLS, ServerRequest, Response, Server } from "../../imports/http.ts";
+import { serve, serveTls, ServeTlsInit } from "../../imports/http.ts";
 import { mime } from "https://deno.land/x/mimetypes@v1.0.0/src/mime.ts";
 
 import type { MimeTypeMap } from "https://deno.land/x/mimetypes@v1.0.0/src/mime.ts";
 import { normalize, resolve } from "../../imports/path.ts";
-import type { HTTPSOptions } from "../../imports/http.ts";
 import type { Plugin } from "../../imports/drollup.ts";
 import HotClient from "./hotReloadingClient.js";
 
@@ -11,8 +10,8 @@ export interface ServeOptions<T = unknown> {
   contentBase: Array<string>;
   port: number;
   host: string;
-  headers: Record<string, string>;
-  https?: HTTPSOptions;
+  headers: HeadersInit;
+  https?: ServeTlsInit;
   openPage: string;
   onListening: (adress: Record<string, string | number>) => void;
   mimeTypes?: MimeTypeMap;
@@ -27,8 +26,7 @@ export type Defined<T> = Exclude<T, undefined>;
 
 export type Inner<T extends ServeOptions<unknown>> = T extends ServeOptions<
   infer X
->
-  ? X
+> ? X
   : never;
 
 export type ReadReturn = {
@@ -64,46 +62,48 @@ class BuildServer {
     ipv4: undefined,
   };
 
-  server: Server;
   first = true;
   constructor(initOptions: InitOptions = [""]) {
     if (Array.isArray(initOptions) || typeof initOptions === "string") {
-      this.options.contentBase =
-        typeof initOptions === "string" ? [initOptions] : initOptions;
+      this.options.contentBase = typeof initOptions === "string"
+        ? [initOptions]
+        : initOptions;
     }
 
     Object.assign(this.options, initOptions);
 
-    this.options.contentBase =
-      typeof this.options.contentBase === "string"
-        ? [this.options.contentBase]
-        : this.options.contentBase;
+    this.options.contentBase = typeof this.options.contentBase === "string"
+      ? [this.options.contentBase]
+      : this.options.contentBase;
 
     if (this.options?.mimeTypes) {
       mime.define(this.options?.mimeTypes, true);
     }
 
-    this.server = !this.options.https
-      ? serve({ port: this.options.port, hostname: this.options.host })
-      : serveTLS(this.options.https);
+    !this.options.https
+      ? serve(this.requestHandler, {
+        port: this.options.port,
+        hostname: this.options.host,
+      })
+      : serveTls(this.requestHandler, this.options.https);
   }
 
-  async requestHandler(req: ServerRequest) {
-    const response: Response = {
-      headers: new Headers(this.options.headers),
-    };
+  async requestHandler(req: Request): Promise<Response> {
+    const headers = new Headers(this.options.headers);
 
     // return snel hot reloading script
     if (req.method === "GET" && req.url === "/__SNEL__HOT__RELOADING.js") {
       const headers = new Headers();
       headers.set("Content-Type", "application/javascript");
 
-      const response: Response = {
-        body: `(${HotClient.toString()})(location.hostname)`,
-        headers,
-      }
+      const response = new Response(
+        `(${HotClient.toString()})(location.hostname)`,
+        {
+          headers,
+        },
+      );
 
-      return req.respond(response);
+      return response;
     }
 
     // Remove querystring
@@ -112,26 +112,24 @@ class BuildServer {
     const urlPath = normalize(unsafePath);
     const { content, err, filePath, size } = await readFileFromContentBase(
       this.options.contentBase,
-      urlPath
+      urlPath,
     );
 
     if (!err && content) {
-      return req.respond(
-        this.found(response, filePath, content, size ? size : "")
-      );
+      return this.found(headers, filePath, content, size ? size : "");
     }
 
     if (err && err.name !== "NotFound") {
-      response.status = 500;
-      response.body = `500 Not Found\n\n${filePath}`;
-      return req.respond(response);
+      return new Response(`500 Not Found\n\n${filePath}`, {
+        headers,
+        status: 500,
+      });
     }
 
     if (this.options.historyApiFallback) {
-      const fallbackPath =
-        typeof this.options.historyApiFallback === "string"
-          ? this.options.historyApiFallback
-          : "/index.html";
+      const fallbackPath = typeof this.options.historyApiFallback === "string"
+        ? this.options.historyApiFallback
+        : "/index.html";
 
       const {
         content: bContent,
@@ -141,22 +139,20 @@ class BuildServer {
       } = await readFileFromContentBase(this.options.contentBase, fallbackPath);
 
       if (bError) {
-        return req.respond(this.notFound(response, filePath));
+        return this.notFound(headers, filePath);
       } else {
-        return req.respond(
-          this.found(
-            response,
-            bFilepath,
-            bContent || new Uint8Array(0),
-            bSize ? bSize : ""
-          )
+        return this.found(
+          headers,
+          bFilepath,
+          bContent || new Uint8Array(0),
+          bSize ? bSize : "",
         );
       }
     } else {
-      return req.respond(this.notFound(response, filePath));
+      return this.notFound(headers, filePath);
     }
   }
-  async serve() {
+  serve() {
     if (this.options.onListening) {
       this.options.onListening({
         port: this.options.port,
@@ -164,34 +160,27 @@ class BuildServer {
         protocol: this.options.https ? "https" : "http",
       });
     }
-
-    for await (const req of this.server) {
-      this.requestHandler(req);
-    }
   }
 
-  notFound(response: Response, filePath: string): Response {
-    response.status = 404;
-    response.body = `404 Not Found\n\n${filePath}`;
-    return response;
+  notFound(headers: Headers, filePath: string): Response {
+    return new Response(`404 Not Found\n\n${filePath}`, {
+      headers,
+      status: 404,
+    });
   }
 
   found(
-    response: Response,
+    headers: Headers,
     filePath: string,
     content: Uint8Array,
-    size: string
+    size: string,
   ): Response {
-    response.status = 200;
-    if (response.headers) {
-      response.headers.append("content-length", size);
-      response.headers.append(
-        "Content-Type",
-        mime.getType(filePath) || this.options.defaultType
-      );
-    }
-    response.body = content;
-    return response;
+    headers.append("content-length", size);
+    headers.append(
+      "Content-Type",
+      mime.getType(filePath) || this.options.defaultType,
+    );
+    return new Response(content, { status: 200, headers });
   }
 
   green(text: string) {
@@ -226,7 +215,7 @@ class BuildServer {
 
 const readFileFromContentBase = async (
   contentBase: string[],
-  urlPath: string
+  urlPath: string,
 ): Promise<ReadReturn> => {
   let filePath = resolve(contentBase[0] || ".", "." + urlPath);
   // Load index.html in directories
@@ -239,7 +228,7 @@ const readFileFromContentBase = async (
     try {
       const fileInfo = await Deno.stat(filePath);
       filePath = fileInfo.isFile ? filePath : resolve(filePath, "index.html");
-    } catch (err) {
+    } catch (_) {
       filePath;
     }
   }
@@ -260,15 +249,15 @@ const readFileFromContentBase = async (
   } catch (err) {
     if (err && contentBase.length > 1) {
       return readFileFromContentBase(contentBase.slice(1), urlPath);
-    }
-    // We know enough
-    else
+    } // We know enough
+    else {
       return {
         err,
         filePath,
         size: null,
         content: null,
       };
+    }
   }
 };
 

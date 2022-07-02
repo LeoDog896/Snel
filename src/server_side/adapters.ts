@@ -22,7 +22,7 @@ function DeployServer({ clientPath, mode }: ServerProps) {
           response.headers.set("content-type", "application/javascript");
 
           const client = new TextDecoder("utf-8").decode(
-            await Deno.readFile(join(Deno.cwd(), clientPath!))
+            await Deno.readFile(join(Deno.cwd(), clientPath!)),
           );
 
           response.body = client;

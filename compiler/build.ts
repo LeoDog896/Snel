@@ -3,16 +3,15 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 import {
+  DevServer,
   ImportMapPlugin,
   Svelte,
-  DevServer,
-  terser
+  terser,
 } from "../src/shared/internal_plugins.ts";
-import type { RollupOptions, OutputOptions } from "../imports/drollup.ts";
+import type { OutputOptions, RollupOptions } from "../imports/drollup.ts";
 import type { RollupBuildProps } from "./types.ts";
 import { toFileUrl } from "../imports/path.ts";
 import { rollup } from "../imports/drollup.ts";
@@ -32,22 +31,22 @@ export async function RollupBuild({
 
   const defaults = production
     ? [
-        ImportMapPlugin({
-          maps: "./import_map.json",
-        }),
-        ...plugins,
-        Svelte({ generate }),
-        terser()
-      ]
+      ImportMapPlugin({
+        maps: "./import_map.json",
+      }),
+      ...plugins,
+      Svelte({ generate }),
+      terser(),
+    ]
     : [
-        ImportMapPlugin({
-          maps: "./import_map.json",
-        }),
-        ...plugins,
-        (await DevServer(ipv4))!,
-        Svelte({ generate, dev: true }),
-        terser(),
-      ] as any;
+      ImportMapPlugin({
+        maps: "./import_map.json",
+      }),
+      ...plugins,
+      (await DevServer(ipv4))!,
+      Svelte({ generate, dev: true }),
+      terser(),
+    ] as any;
 
   const options: RollupOptions = {
     input: new URL(entryFile, `${base}/`).href,
@@ -58,7 +57,7 @@ export async function RollupBuild({
       sourcemap: !production,
     },
     cache,
-    treeshake: production
+    treeshake: production,
   };
 
   const bundle = await rollup(options);

@@ -3,7 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 /**
@@ -37,15 +36,15 @@
 import {
   dirname,
   fromFileUrl,
+  join,
   normalize,
   relative,
   toFileUrl,
-  join,
 } from "../../imports/path.ts";
 import type { NormalizedInputOptions, Plugin } from "../../imports/drollup.ts";
-import { resolverConfigFile, loadConfig } from "./utils.ts";
+import { loadConfig, resolverConfigFile } from "./utils.ts";
 import { ensureArray } from "./imports/ensureArray.ts";
-import { VERSION, URL_SVELTE_CDN } from "./version.ts";
+import { URL_SVELTE_CDN, VERSION } from "./version.ts";
 import { resolveId } from "./imports/resolveId.ts";
 import { colors } from "../../imports/fmt.ts";
 import type { snelConfig } from "./types.ts";
@@ -61,10 +60,12 @@ async function resolveExternalsImportMaps() {
   const externaMaps: Record<string, string> = {};
 
   // prevent try to load config when run create command
-  if ((await exists("./snel.config.ts")) || (await exists("./snel.config.js"))) {
+  if (
+    (await exists("./snel.config.ts")) || (await exists("./snel.config.js"))
+  ) {
     // get externals import maps
     const { extendsImportMap } = await loadConfig<snelConfig>(
-      await resolverConfigFile()
+      await resolverConfigFile(),
     )!;
 
     if (extendsImportMap && extendsImportMap?.length > 0) {
@@ -77,8 +78,7 @@ async function resolveExternalsImportMaps() {
             for (const [key, value] of Object.entries(externals.imports)) {
               externaMaps[key] = value;
             }
-          }
-          // load from url and store it in cache
+          } // load from url and store it in cache
           else {
             try {
               const response = await fetch(map);
@@ -92,15 +92,17 @@ async function resolveExternalsImportMaps() {
               }
             } catch (error: any) {
               throw new Error(
-                colors.red(`can't load external import map ${colors.yellow(map)}`)
+                colors.red(
+                  `can't load external import map ${colors.yellow(map)}`,
+                ),
               ).message;
             }
           }
         } else {
           throw new Error(
             colors.red(
-              `you only can extends remote import maps from http or https`
-            )
+              `you only can extends remote import maps from http or https`,
+            ),
           ).message;
         }
       }
@@ -191,28 +193,28 @@ const isBareImportSpecifier = (address: string) => {
 const validate = (
   importMap: ImportMapObject,
   options: NormalizedInputOptions,
-  baseUrl: string
+  baseUrl: string,
 ) =>
   Object.keys(importMap.imports).map((specifier) => {
     const address = importMap.imports[specifier];
 
     if (isBareImportSpecifier(address)) {
       throw new TypeError(
-        `import specifier "${specifier}" can not be mapped to a bare import statement "${address}".`
+        `import specifier "${specifier}" can not be mapped to a bare import statement "${address}".`,
       );
     }
 
     if (typeof options.external === "function") {
       if (options.external(specifier, undefined, false)) {
         throw new TypeError(
-          "import specifier must not be present in the Rollup external config"
+          "import specifier must not be present in the Rollup external config",
         );
       }
     }
     if (Array.isArray(options.external)) {
       if (options.external.includes(specifier)) {
         throw new TypeError(
-          "import specifier must not be present in the Rollup external config"
+          "import specifier must not be present in the Rollup external config",
         );
       }
     }
@@ -230,7 +232,7 @@ const validate = (
 const readFile = async (
   path: string,
   options: NormalizedInputOptions,
-  baseUrl?: string
+  baseUrl?: string,
 ) => {
   const defaultImports = {
     snel: `https://deno.land/x/snel@v${VERSION}/mod.ts`,
@@ -251,9 +253,9 @@ const readFile = async (
   const importMapFile = (await exists("./import_map.json"))
     ? await Deno.readTextFile(importMapPath)
     : JSON.stringify({
-        imports: { ...defaultImports },
-        scopes: {},
-      });
+      imports: { ...defaultImports },
+      scopes: {},
+    });
 
   const { imports, scopes } = JSON.parse(importMapFile);
   const importsFallback = imports ?? {};
@@ -282,7 +284,7 @@ const readFile = async (
  * @public
  */
 export function ImportMapPlugin(
-  rollupImportMapOptions: RollupImportMapOptions
+  rollupImportMapOptions: RollupImportMapOptions,
 ): Plugin {
   const cache = new Map();
   const cwd = Deno.cwd();
@@ -327,9 +329,9 @@ export function ImportMapPlugin(
           return validate(
             importMap,
             options,
-            rollupImportMapOptions.baseUrl ?? cwd
+            rollupImportMapOptions.baseUrl ?? cwd,
           );
-        })
+        }),
       );
 
       mappings.forEach((map) => {

@@ -3,7 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 import { loadConfig, resolverConfigFile } from "./utils.ts";
@@ -16,7 +15,7 @@ export * from "./import_map.ts";
 
 export async function DevServer(ipv4?: string) {
   const { port, mode } = await loadConfig<snelConfig>(
-    await resolverConfigFile()
+    await resolverConfigFile(),
   )!;
 
   if (mode === "dom") {

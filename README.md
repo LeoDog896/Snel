@@ -25,7 +25,8 @@
 
 ## What is Snel?
 
-It is a `tool/framework` to compile .svelte component to javascript files to create web application using deno and svelte
+It is a `tool/framework` to compile .svelte component to javascript files to
+create web application using deno and svelte
 
 ## Main features
 
@@ -62,11 +63,13 @@ cd ./[project name]
 trex run start
 ```
 
-this starts your application on a development server in the port you entered in the configuration
+this starts your application on a development server in the port you entered in
+the configuration
 
 ## Using svelte core libraries
 
-to use svelte core libraries such as transition, store, motion etc. must be called using the following syntax:
+to use svelte core libraries such as transition, store, motion etc. must be
+called using the following syntax:
 
 ```javascript
 import { cubicOut } from "svelte/easing";
@@ -78,7 +81,8 @@ import { onMount } from "svelte";
 
 ## Using import maps
 
-You can use import maps to reference the dependencies you use, to use import maps from bes have an `import_map.json` file with the following structure:
+You can use import maps to reference the dependencies you use, to use import
+maps from bes have an `import_map.json` file with the following structure:
 
 ```json
 {
@@ -88,7 +92,8 @@ You can use import maps to reference the dependencies you use, to use import map
 }
 ```
 
-In order for the compiler to know that you are using import maps, you need to import the dependencies as follows:
+In order for the compiler to know that you are using import maps, you need to
+import the dependencies as follows:
 
 ```javascript
 import moment from "moment";
@@ -99,7 +104,9 @@ import axios from "axios";
 
 ## Snel config file
 
-snel uses a configuration file to define different things, like the development server port or add different plugins, this file can be named as `snel.config.js` or `snel.config.ts`.
+snel uses a configuration file to define different things, like the development
+server port or add different plugins, this file can be named as `snel.config.js`
+or `snel.config.ts`.
 
 `example: snel.config.js`
 
@@ -119,10 +126,12 @@ config options:
 
 - port (number): port number for development server
 - mode (string): type project "dom" | "ssg"
-- plugins (Plugin[ ]): plugins must be compatible with [rollup deno](https://deno.land/x/drollup)
+- plugins (Plugin[ ]): plugins must be compatible with
+  [rollup deno](https://deno.land/x/drollup)
 - extendsImportMap (string[ ]): extends from externas import maps
 
-if you want to use `snel.config.ts` you can import `snelConfig` interface to provide type checking:
+if you want to use `snel.config.ts` you can import `snelConfig` interface to
+provide type checking:
 
 `example: snel.config.ts`
 
@@ -136,7 +145,12 @@ export default <snelConfig>{
 
 ## Manage import maps dependencies using [trex](https://github.com/crewdevio/Trex)
 
-if you don't have an import map.json file you can create it using the `trex install` command, trex is mainly focused on handling dependencies for `deno` but this doesn't prevent you from being able to use it to handle your dependencies for `snel/svelte`. to install any dependency you just have to use the [custom command](https://github.com/crewdevio/Trex#adding-custom-packages) from trex:
+if you don't have an import map.json file you can create it using the
+`trex install` command, trex is mainly focused on handling dependencies for
+`deno` but this doesn't prevent you from being able to use it to handle your
+dependencies for `snel/svelte`. to install any dependency you just have to use
+the [custom command](https://github.com/crewdevio/Trex#adding-custom-packages)
+from trex:
 
 ```console
 trex --custom axios=https://cdn.skypack.dev/axios
@@ -152,7 +166,11 @@ this will install axios and it will make it accessible in the import map file:
 }
 ```
 
-> **note**: You should know that your dependencies must be compatible with [es modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) and with the browser, if you refer to some import maps package and it is not found by the compiler, it will not be transformed, so an error will appear in your browser.
+> **note**: You should know that your dependencies must be compatible with
+> [es modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
+> and with the browser, if you refer to some import maps package and it is not
+> found by the compiler, it will not be transformed, so an error will appear in
+> your browser.
 
 we recommend these sites for you to install your dependencies
 
@@ -162,7 +180,9 @@ we recommend these sites for you to install your dependencies
 
 ## Typescript, Sass and Less support
 
-snel supports typescript out the box, so you can import typescript files into `.svelte` components without specifying the use of typescript within the component.
+snel supports typescript out the box, so you can import typescript files into
+`.svelte` components without specifying the use of typescript within the
+component.
 
 `App.svelte`
 
@@ -186,12 +206,15 @@ snel supports typescript out the box, so you can import typescript files into `.
 export const PI: number = Math.PI;
 ```
 
-Something important to know is that if you are going to import from typescript files without specifying the use of typescript within the component, you can only import non-types elements, example:
+Something important to know is that if you are going to import from typescript
+files without specifying the use of typescript within the component, you can
+only import non-types elements, example:
 
 - types
 - interfaces
 
-in case you want to use the typescript inside the components, you just have to specify it in the `lang` attribute:
+in case you want to use the typescript inside the components, you just have to
+specify it in the `lang` attribute:
 
 ```html
 <script lang="ts">
@@ -208,7 +231,8 @@ in case you want to use the typescript inside the components, you just have to s
 </script>
 ```
 
-to import types and interfaces into components these must be specified using the following syntax:
+to import types and interfaces into components these must be specified using the
+following syntax:
 
 ```html
 <script lang="ts">
@@ -216,7 +240,8 @@ to import types and interfaces into components these must be specified using the
 </script>
 ```
 
-and you should only import types using this syntax and not combine imports with other elements.
+and you should only import types using this syntax and not combine imports with
+other elements.
 
 ```html
 <script lang="ts">
@@ -229,9 +254,11 @@ and you should only import types using this syntax and not combine imports with 
 </script>
 ```
 
-> **note**: typescript support within components is not stable and compilation errors in hot reloading may appear.
+> **note**: typescript support within components is not stable and compilation
+> errors in hot reloading may appear.
 
-in the same way you can use the syntax of sass and less inside the components to define the styles.
+in the same way you can use the syntax of sass and less inside the components to
+define the styles.
 
 ```html
 <style lang="scss">
@@ -245,11 +272,13 @@ in the same way you can use the syntax of sass and less inside the components to
 </style>
 ```
 
-> **note**: for now importing external styles is not available for css, sass and less.
+> **note**: for now importing external styles is not available for css, sass and
+> less.
 
 ## Import components and files
 
-when you create a project with snel you will notice that the components are imported as follows:
+when you create a project with snel you will notice that the components are
+imported as follows:
 
 `example`
 
@@ -258,7 +287,8 @@ when you create a project with snel you will notice that the components are impo
 import Home from "@/components/Home.svelte";
 ```
 
-`@/` It is equivalent to `./`, Similarly, if you need to access any component or file that is inside the src folder, you can use the following syntax:
+`@/` It is equivalent to `./`, Similarly, if you need to access any component or
+file that is inside the src folder, you can use the following syntax:
 
 `example`
 
@@ -291,11 +321,13 @@ summary:
 
 this syntax can be used in javascript, typescript files and components.
 
-> **note**: you can change the behavior by rewriting the pattern inside the import_map.json file, although be careful when doing this.
+> **note**: you can change the behavior by rewriting the pattern inside the
+> import_map.json file, although be careful when doing this.
 
 ## Deploy SPA app
 
-If you want to have a simple workflow to deploy your SPA application, you can use this.
+If you want to have a simple workflow to deploy your SPA application, you can
+use this.
 
 `deploy`
 
@@ -350,9 +382,13 @@ jobs:
             manifest.json
 ```
 
-this compiles the application every time it is pushed to the `main` branch, and uploads the compiled files to the `deploy` branch, which could be deployed in hosts such as `vercel` or `netlify`.
+this compiles the application every time it is pushed to the `main` branch, and
+uploads the compiled files to the `deploy` branch, which could be deployed in
+hosts such as `vercel` or `netlify`.
 
-If you are using the snel client router and you are going to deploy vercel or netlify you must add the respective configuration files to avoid having 404 errors.
+If you are using the snel client router and you are going to deploy vercel or
+netlify you must add the respective configuration files to avoid having 404
+errors.
 
 `for vercel: vercel.json`
 
@@ -411,7 +447,6 @@ create a `404.html` file:
 
 and in your `index.html` add this:
 
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -446,7 +481,8 @@ and in your `index.html` add this:
 
 ## Hot Reloading
 
-Snel provides hot reload capability, it compiles and updates the application when changes are applied to it
+Snel provides hot reload capability, it compiles and updates the application
+when changes are applied to it
 
 `example`
 

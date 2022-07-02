@@ -51,9 +51,13 @@ const app = new App({
 
 #### `Router`
 
-The `Router` component supplies the `Link` and `Route` descendant components with routing information through context, so you need at least one `Router` at the top of your application. It assigns a score to all its `Route` descendants and picks the best match to render.
+The `Router` component supplies the `Link` and `Route` descendant components
+with routing information through context, so you need at least one `Router` at
+the top of your application. It assigns a score to all its `Route` descendants
+and picks the best match to render.
 
-`Router` components can also be nested to allow for seamless merging of many smaller apps.
+`Router` components can also be nested to allow for seamless merging of many
+smaller apps.
 
 ###### Properties
 
@@ -77,13 +81,18 @@ A component used to navigate around the application.
 
 #### `Route`
 
-A component that will render its `component` property or children when its ancestor `Router` component decides it is the best match.
+A component that will render its `component` property or children when its
+ancestor `Router` component decides it is the best match.
 
-All properties other than `path` and `component` given to the `Route` will be passed to the rendered `component`.
+All properties other than `path` and `component` given to the `Route` will be
+passed to the rendered `component`.
 
-Potential path parameters will be passed to the rendered `component` as properties. A wildcard `*` can be given a name with `*wildcardName` to pass the wildcard string as the `wildcardName` property instead of as the `*` property.
+Potential path parameters will be passed to the rendered `component` as
+properties. A wildcard `*` can be given a name with `*wildcardName` to pass the
+wildcard string as the `wildcardName` property instead of as the `*` property.
 
-Potential path parameters are passed back to the parent using props, so they can be exposed to the slot template using `let:params`.
+Potential path parameters are passed back to the parent using props, so they can
+be exposed to the slot template using `let:params`.
 
 ```html
 <Route path="blog/:id" let:params>
@@ -100,9 +109,13 @@ Potential path parameters are passed back to the parent using props, so they can
 
 #### `navigate`
 
-A function that allows you to imperatively navigate around the application for those use cases where a `Link` component is not suitable, e.g. after submitting a form.
+A function that allows you to imperatively navigate around the application for
+those use cases where a `Link` component is not suitable, e.g. after submitting
+a form.
 
-The first argument is a string denoting where to navigate to, and the second argument is an object with a `replace` and `state` property equivalent to those in the `Link` component.
+The first argument is a string denoting where to navigate to, and the second
+argument is an object with a `replace` and `state` property equivalent to those
+in the `Link` component.
 
 ```html
 <script>
@@ -118,7 +131,9 @@ The first argument is a string denoting where to navigate to, and the second arg
 
 #### `link`
 
-An action used on anchor tags to navigate around the application. You can add an attribute `replace` to replace the current entry in the history stack instead of adding a new one.
+An action used on anchor tags to navigate around the application. You can add an
+attribute `replace` to replace the current entry in the history stack instead of
+adding a new one.
 
 ```html
 <script>
@@ -135,7 +150,11 @@ An action used on anchor tags to navigate around the application. You can add an
 
 #### `links`
 
-An action used on a root element to make all relative anchor elements navigate around the application. You can add an attribute `replace` on any anchor to replace the current entry in the history stack instead of adding a new one. You can add an attribute `noroute` for this action to skip over the anchor and allow it to use the native browser action.
+An action used on a root element to make all relative anchor elements navigate
+around the application. You can add an attribute `replace` on any anchor to
+replace the current entry in the history stack instead of adding a new one. You
+can add an attribute `noroute` for this action to skip over the anchor and allow
+it to use the native browser action.
 
 ```html
 <!-- App.svelte -->
@@ -156,6 +175,12 @@ An action used on a root element to make all relative anchor elements navigate a
 
 ## SSR Caveat
 
-In the browser we wait until all child `Route` components have registered with their ancestor `Router` component before we let the `Router` pick the best match. This approach is not possible on the server, because when all `Route` components have registered and it is time to pick a match the SSR has already completed, and a document with no matching route will be returned.
+In the browser we wait until all child `Route` components have registered with
+their ancestor `Router` component before we let the `Router` pick the best
+match. This approach is not possible on the server, because when all `Route`
+components have registered and it is time to pick a match the SSR has already
+completed, and a document with no matching route will be returned.
 
-We therefore resort to picking the first matching `Route` that is registered on the server, so it is of utmost importance that you `sort your Route components from the most specific to the least specific if you are using SSR`.
+We therefore resort to picking the first matching `Route` that is registered on
+the server, so it is of utmost importance that you
+`sort your Route components from the most specific to the least specific if you are using SSR`.

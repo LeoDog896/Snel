@@ -3,7 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 import { join, toFileUrl } from "../../imports/path.ts";
@@ -84,13 +83,10 @@ export async function ipv4(port: string | number) {
   const ipv4 = await getIP()!;
 
   return {
-    str:
-      ipv4?.split(" ").length === 1
-        ? `http://${ipv4}`
-        : ipv4
-          ?.split(" ")
-          .map((ip) => `http://${ip}:${port}`)
-          .join(" or "),
+    str: ipv4?.split(" ").length === 1 ? `http://${ipv4}` : ipv4
+      ?.split(" ")
+      .map((ip) => `http://${ip}:${port}`)
+      .join(" or "),
     ipv4,
   };
 }
@@ -110,17 +106,21 @@ OPTIONS:
 SUBCOMMANDS:
   ${colors.yellow("create")}    ${colors.white("create a template project")}
   ${colors.yellow("dev")}       ${colors.white("build application in dev mode")}
-  ${colors.yellow("serve")}     ${colors.white(
-        "build and server in a dev server"
-      )}
-  ${colors.yellow("build")}     ${colors.white(
-        "build application for production"
-      )}
+  ${colors.yellow("serve")}     ${
+        colors.white(
+          "build and server in a dev server",
+        )
+      }
+  ${colors.yellow("build")}     ${
+        colors.white(
+          "build application for production",
+        )
+      }
 
 you can see the different options available for each command using:
   snel  ${colors.yellow("[command] --help or -h")}
-`
-    )
+`,
+    ),
   );
 }
 
@@ -167,13 +167,16 @@ function parser(type: any, deep: number): string {
       return `${type.toString()}`;
 
     // deno-lint-ignore no-fallthrough
+
     case "object":
       if (type instanceof Object && !Array.isArray(type)) {
         return ToString(type, deep * 2);
       } else if (Array.isArray(type)) {
-        return `[${type.map(
-          (element) => `\n${" ".repeat(deep * 3)} ${parser(element, 2)}\n`
-        )}]`;
+        return `[${
+          type.map(
+            (element) => `\n${" ".repeat(deep * 3)} ${parser(element, 2)}\n`,
+          )
+        }]`;
       }
     default:
       return `${type}`;
@@ -216,8 +219,8 @@ export async function resolverConfigFile(): Promise<string> {
   if (js && ts) {
     throw new Error(
       colors.red(
-        "you only can have one snel config file, snel.config.js or snel.config.ts"
-      )
+        "you only can have one snel config file, snel.config.js or snel.config.ts",
+      ),
     ).message;
   } else if (js) {
     return "./snel.config.js";
@@ -225,7 +228,7 @@ export async function resolverConfigFile(): Promise<string> {
     return "./snel.config.ts";
   } else {
     throw new Error(
-      colors.red("can't load snel config file, not found in the root project")
+      colors.red("can't load snel config file, not found in the root project"),
     ).message;
   }
 }

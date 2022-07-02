@@ -46,7 +46,7 @@ declare class SvelteComponentDev extends SvelteComponent {
 declare class SvelteComponentTyped<
   Props extends Record<string, any> = any,
   Events extends Record<string, any> = any,
-  Slots extends Record<string, any> = any
+  Slots extends Record<string, any> = any,
 > extends SvelteComponentDev {
   /**
    * @private
@@ -117,7 +117,7 @@ declare class SvelteComponent {
 declare class Svelte2TsxComponent<
   Props extends {} = {},
   Events extends {} = {},
-  Slots extends {} = {}
+  Slots extends {} = {},
 > {
   // svelte2tsx-specific
   /**
@@ -143,7 +143,7 @@ declare class Svelte2TsxComponent<
    */
   $on<K extends keyof Events & string>(
     event: K,
-    handler: (e: Events[K]) => any
+    handler: (e: Events[K]) => any,
   ): () => void;
   /**
    * Removes a component from the DOM and triggers any `onDestroy` handlers.
@@ -182,7 +182,7 @@ interface Svelte2TsxComponentConstructorParameters<Props extends {}> {
 type AConstructorTypeOf<T, U extends any[] = any[]> = new (...args: U) => T;
 type SvelteComponentConstructor<
   T,
-  U extends Svelte2TsxComponentConstructorParameters<any>
+  U extends Svelte2TsxComponentConstructorParameters<any>,
 > = new (options: U) => T;
 
 type SvelteActionReturnType = {
@@ -210,11 +210,12 @@ type SvelteAnimationReturnType = {
   tick?: (t: number, u: number) => void;
 };
 
-type SvelteWithOptionalProps<Props, Keys extends keyof Props> = Omit<
-  Props,
-  Keys
-> &
-  Partial<Pick<Props, Keys>>;
+type SvelteWithOptionalProps<Props, Keys extends keyof Props> =
+  & Omit<
+    Props,
+    Keys
+  >
+  & Partial<Pick<Props, Keys>>;
 type SvelteAllProps = { [index: string]: any };
 type SveltePropsAnyFallback<Props> = {
   [K in keyof Props]: Props[K] extends undefined ? any : Props[K];
@@ -233,20 +234,20 @@ declare var process: Record<string, string> & { browser: boolean };
 declare var __sveltets_AnimationMove: { from: DOMRect; to: DOMRect };
 
 declare function __sveltets_ensureAnimation(
-  animationCall: SvelteAnimationReturnType
+  animationCall: SvelteAnimationReturnType,
 ): {};
 declare function __sveltets_ensureAction(
-  actionCall: SvelteActionReturnType
+  actionCall: SvelteActionReturnType,
 ): {};
 declare function __sveltets_ensureTransition(
-  transitionCall: SvelteTransitionReturnType
+  transitionCall: SvelteTransitionReturnType,
 ): {};
 declare function __sveltets_ensureFunction(
-  expression: (e: Event & { detail?: any }) => unknown
+  expression: (e: Event & { detail?: any }) => unknown,
 ): {};
 declare function __sveltets_ensureType<T>(
   type: AConstructorTypeOf<T>,
-  el: T
+  el: T,
 ): {};
 declare function __sveltets_cssProp(prop: Record<string, any>): {};
 declare function __sveltets_ctorOf<T>(type: T): AConstructorTypeOf<T>;
@@ -254,7 +255,7 @@ declare function __sveltets_instanceOf<T = any>(type: AConstructorTypeOf<T>): T;
 declare function __sveltets_allPropsType(): SvelteAllProps;
 declare function __sveltets_restPropsType(): SvelteRestProps;
 declare function __sveltets_slotsType<Slots, Key extends keyof Slots>(
-  slots: Slots
+  slots: Slots,
 ): Record<Key, boolean>;
 
 // Overload of the following two functions is necessary.
@@ -264,7 +265,7 @@ declare function __sveltets_slotsType<Slots, Key extends keyof Slots>(
 declare function __sveltets_partial<
   Props = {},
   Events = {},
-  Slots = {}
+  Slots = {},
 >(render: {
   props?: Props;
   events?: Events;
@@ -274,10 +275,10 @@ declare function __sveltets_partial<
   Props = {},
   Events = {},
   Slots = {},
-  OptionalProps extends keyof Props = any
+  OptionalProps extends keyof Props = any,
 >(
   optionalProps: OptionalProps[],
-  render: { props?: Props; events?: Events; slots?: Slots }
+  render: { props?: Props; events?: Events; slots?: Slots },
 ): {
   props?: Expand<
     SvelteWithOptionalProps<SveltePropsAnyFallback<Props>, OptionalProps>
@@ -289,7 +290,7 @@ declare function __sveltets_partial<
 declare function __sveltets_partial_with_any<
   Props = {},
   Events = {},
-  Slots = {}
+  Slots = {},
 >(render: {
   props?: Props;
   events?: Events;
@@ -303,15 +304,16 @@ declare function __sveltets_partial_with_any<
   Props = {},
   Events = {},
   Slots = {},
-  OptionalProps extends keyof Props = any
+  OptionalProps extends keyof Props = any,
 >(
   optionalProps: OptionalProps[],
-  render: { props?: Props; events?: Events; slots?: Slots }
+  render: { props?: Props; events?: Events; slots?: Slots },
 ): {
-  props?: Expand<
-    SvelteWithOptionalProps<SveltePropsAnyFallback<Props>, OptionalProps>
-  > &
-    SvelteAllProps;
+  props?:
+    & Expand<
+      SvelteWithOptionalProps<SveltePropsAnyFallback<Props>, OptionalProps>
+    >
+    & SvelteAllProps;
   events?: Events;
   slots?: Slots;
 };
@@ -319,7 +321,7 @@ declare function __sveltets_partial_with_any<
 declare function __sveltets_with_any<
   Props = {},
   Events = {},
-  Slots = {}
+  Slots = {},
 >(render: {
   props?: Props;
   events?: Events;
@@ -329,7 +331,7 @@ declare function __sveltets_with_any<
 declare function __sveltets_with_any_event<
   Props = {},
   Events = {},
-  Slots = {}
+  Slots = {},
 >(render: {
   props?: Props;
   events?: Events;
@@ -349,25 +351,25 @@ declare function __sveltets_componentType(): AConstructorTypeOf<
 declare function __sveltets_invalidate<T>(getValue: () => T): T;
 
 declare function __sveltets_mapWindowEvent<
-  K extends keyof HTMLBodyElementEventMap
+  K extends keyof HTMLBodyElementEventMap,
 >(event: K): HTMLBodyElementEventMap[K];
 declare function __sveltets_mapBodyEvent<K extends keyof WindowEventMap>(
-  event: K
+  event: K,
 ): WindowEventMap[K];
 declare function __sveltets_mapElementEvent<
-  K extends keyof HTMLElementEventMap
+  K extends keyof HTMLElementEventMap,
 >(event: K): HTMLElementEventMap[K];
 declare function __sveltets_mapElementTag<K extends keyof ElementTagNameMap>(
-  tag: K
+  tag: K,
 ): ElementTagNameMap[K];
 declare function __sveltets_mapElementTag<K extends keyof SVGElementTagNameMap>(
-  tag: K
+  tag: K,
 ): SVGElementTagNameMap[K];
 declare function __sveltets_mapElementTag(tag: any): HTMLElement;
 
 declare function __sveltets_bubbleEventDef<Events, K extends keyof Events>(
   events: Events,
-  eventKey: K
+  eventKey: K,
 ): Events[K];
 declare function __sveltets_bubbleEventDef(events: any, eventKey: string): any;
 
@@ -380,25 +382,25 @@ declare function __sveltets_unionType<T1, T2>(t1: T1, t2: T2): T1 | T2;
 declare function __sveltets_unionType<T1, T2, T3>(
   t1: T1,
   t2: T2,
-  t3: T3
+  t3: T3,
 ): T1 | T2 | T3;
 declare function __sveltets_unionType<T1, T2, T3, T4>(
   t1: T1,
   t2: T2,
   t3: T3,
-  t4: T4
+  t4: T4,
 ): T1 | T2 | T3 | T4;
 declare function __sveltets_unionType(...types: any[]): any;
 
 declare function __sveltets_awaitThen<T>(
   promise: T,
   onfulfilled: (value: T extends PromiseLike<infer U> ? U : T) => any,
-  onrejected?: (value: T extends PromiseLike<any> ? any : never) => any
+  onrejected?: (value: T extends PromiseLike<any> ? any : never) => any,
 ): any;
 
 declare function __sveltets_each<T>(
   array: ArrayLike<T>,
-  callbackfn: (value: T, index: number) => any
+  callbackfn: (value: T, index: number) => any,
 ): any;
 
 declare function createSvelte2TsxComponent<Props, Events, Slots>(render: {
@@ -412,7 +414,7 @@ declare function createSvelte2TsxComponent<Props, Events, Slots>(render: {
 
 declare function __sveltets_unwrapArr<T>(arr: ArrayLike<T>): T;
 declare function __sveltets_unwrapPromiseLike<T>(
-  promise: PromiseLike<T> | T
+  promise: PromiseLike<T> | T,
 ): T;
 
 interface RouteProps {
@@ -468,10 +470,10 @@ declare module "svelte" {
   export function afterUpdate(fn: () => any): void;
   export function onDestroy(fn: () => any): void;
   export function createEventDispatcher<EventMap extends {} = any>(): <
-    EventKey extends Extract<keyof EventMap, string>
+    EventKey extends Extract<keyof EventMap, string>,
   >(
     type: EventKey,
-    detail?: EventMap[EventKey]
+    detail?: EventMap[EventKey],
   ) => void;
 
   export function setContext<T>(key: any, context: T): void;
@@ -489,7 +491,7 @@ declare module "svelte/store" {
   type Invalidator<T> = (value?: T) => void;
   /** Start and stop notification callbacks. */
   export type StartStopNotifier<T> = (
-    set: Subscriber<T>
+    set: Subscriber<T>,
   ) => Unsubscriber | void;
   /** Readable interface for subscribing. */
   export interface Readable<T> {
@@ -501,7 +503,7 @@ declare module "svelte/store" {
     subscribe(
       this: void,
       run: Subscriber<T>,
-      invalidate?: Invalidator<T>
+      invalidate?: Invalidator<T>,
     ): Unsubscriber;
   }
   /** Writable interface for both updating and subscribing. */
@@ -524,7 +526,7 @@ declare module "svelte/store" {
    */
   export function readable<T>(
     value: T,
-    start: StartStopNotifier<T>
+    start: StartStopNotifier<T>,
   ): Readable<T>;
   /**
    * Create a `Writable` store that allows both updating and reading by subscription.
@@ -533,16 +535,15 @@ declare module "svelte/store" {
    */
   export function writable<T>(
     value: T,
-    start?: StartStopNotifier<T>
+    start?: StartStopNotifier<T>,
   ): Writable<T>;
   /** One or more `Readable`s. */
   type Stores = Readable<any> | [Readable<any>, ...Array<Readable<any>>];
   /** One or more values from `Readable` stores. */
-  type StoresValues<T> = T extends Readable<infer U>
-    ? U
+  type StoresValues<T> = T extends Readable<infer U> ? U
     : {
-        [K in keyof T]: T[K] extends Readable<infer U> ? U : never;
-      };
+      [K in keyof T]: T[K] extends Readable<infer U> ? U : never;
+    };
   /**
    * Derived value store by synchronizing one or more readable stores and
    * applying an aggregation function over its input values.
@@ -555,9 +556,9 @@ declare module "svelte/store" {
     stores: S,
     fn: (
       values: StoresValues<S>,
-      set: (value: T) => void
+      set: (value: T) => void,
     ) => Unsubscriber | void,
-    initial_value?: T
+    initial_value?: T,
   ): Readable<T>;
   /**
    * Derived value store by synchronizing one or more readable stores and
@@ -570,7 +571,7 @@ declare module "svelte/store" {
   export function derived<S extends Stores, T>(
     stores: S,
     fn: (values: StoresValues<S>) => T,
-    initial_value?: T
+    initial_value?: T,
   ): Readable<T>;
   /**
    * Derived value store by synchronizing one or more readable stores and
@@ -581,7 +582,7 @@ declare module "svelte/store" {
    */
   export function derived<S extends Stores, T>(
     stores: S,
-    fn: (values: StoresValues<S>) => T
+    fn: (values: StoresValues<S>) => T,
   ): Readable<T>;
   /**
    * Get the current value from a store by subscribing and immediately unsubscribing.
@@ -607,7 +608,7 @@ declare module "svelte/transition" {
   }
   export function blur(
     node: Element,
-    { delay, duration, easing, amount, opacity }?: BlurParams
+    { delay, duration, easing, amount, opacity }?: BlurParams,
   ): TransitionConfig;
   export interface FadeParams {
     delay?: number;
@@ -616,7 +617,7 @@ declare module "svelte/transition" {
   }
   export function fade(
     node: Element,
-    { delay, duration, easing }?: FadeParams
+    { delay, duration, easing }?: FadeParams,
   ): TransitionConfig;
   export interface FlyParams {
     delay?: number;
@@ -628,7 +629,7 @@ declare module "svelte/transition" {
   }
   export function fly(
     node: Element,
-    { delay, duration, easing, x, y, opacity }?: FlyParams
+    { delay, duration, easing, x, y, opacity }?: FlyParams,
   ): TransitionConfig;
   export interface SlideParams {
     delay?: number;
@@ -637,7 +638,7 @@ declare module "svelte/transition" {
   }
   export function slide(
     node: Element,
-    { delay, duration, easing }?: SlideParams
+    { delay, duration, easing }?: SlideParams,
   ): TransitionConfig;
   export interface ScaleParams {
     delay?: number;
@@ -648,7 +649,7 @@ declare module "svelte/transition" {
   }
   export function scale(
     node: Element,
-    { delay, duration, easing, start, opacity }?: ScaleParams
+    { delay, duration, easing, start, opacity }?: ScaleParams,
   ): TransitionConfig;
   export interface DrawParams {
     delay?: number;
@@ -660,7 +661,7 @@ declare module "svelte/transition" {
     node: SVGElement & {
       getTotalLength(): number;
     },
-    { delay, speed, duration, easing }?: DrawParams
+    { delay, speed, duration, easing }?: DrawParams,
   ): TransitionConfig;
   export interface CrossfadeParams {
     delay?: number;
@@ -674,14 +675,14 @@ declare module "svelte/transition" {
     fallback?: (
       node: Element,
       params: CrossfadeParams,
-      intro: boolean
+      intro: boolean,
     ) => TransitionConfig;
   }): Array<
     (
       node: Element,
       params: CrossfadeParams & {
         key: any;
-      }
+      },
     ) => () => TransitionConfig
   >;
 }
@@ -738,7 +739,7 @@ declare module "svelte/animate" {
       from: DOMRect;
       to: DOMRect;
     },
-    params?: FlipParams
+    params?: FlipParams,
   ): AnimationConfig;
 }
 
@@ -753,7 +754,7 @@ declare module "svelte-routing" {
       state?: {
         [k in string | number]: unknown;
       };
-    }
+    },
   ) => void;
 
   export const link: (node: Element) => { destroy(): void };
@@ -800,13 +801,13 @@ declare module "snel" {
      */
     GetParams<P extends object = object>(
       path: string,
-      route: string
+      route: string,
     ):
       | {
-          path: string;
-          index: number;
-          params: P;
-        }
+        path: string;
+        index: number;
+        params: P;
+      }
       | false;
 
     /**

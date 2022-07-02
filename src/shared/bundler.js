@@ -3,7 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 import { compile, preprocess } from "../../compiler/compiler.ts";
@@ -40,8 +39,9 @@ export default (options = {}) => {
         importee[0] === "." ||
         importee[0] === "\0" ||
         path.isAbsolute(importee)
-      )
+      ) {
         return null;
+      }
 
       // if this is a bare import, see if there's a valid pkg.svelte
       const parts = importee.split("/");
@@ -111,16 +111,14 @@ export default (options = {}) => {
               // transform scss to css
               if (attributes?.lang === "scss") {
                 css = scssCompiler(content);
-              }
-
-              // transform less  to css
+              } // transform less  to css
               else if (attributes?.lang === "less") {
                 const { css: code } = await less.render(content);
                 css = code;
               }
             } catch (error) {
               throw new Error(
-                colors.red(`compiling to css ${colors.yellow(filename)}`)
+                colors.red(`compiling to css ${colors.yellow(filename)}`),
               ).message;
             }
 
@@ -129,8 +127,7 @@ export default (options = {}) => {
             };
           },
         },
-
-        { filename }
+        { filename },
       );
 
       if (processed.dependencies) {

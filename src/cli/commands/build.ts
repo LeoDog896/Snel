@@ -3,10 +3,9 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
-import { loadConfig, common, resolverConfigFile } from "../../shared/utils.ts";
+import { common, loadConfig, resolverConfigFile } from "../../shared/utils.ts";
 import { serverTemplate } from "../../server_side/templates.ts";
 import { RollupBuild } from "../../../compiler/build.ts";
 import type { snelConfig } from "../../shared/types.ts";
@@ -18,7 +17,7 @@ import { Dist } from "../prepare.ts";
 export default async function Build() {
   console.log(colors.green("preparing files for production.\n"));
   const { mode, plugins, port } = await loadConfig<snelConfig>(
-    await resolverConfigFile()
+    await resolverConfigFile(),
   )!;
 
   if (mode === "dom") {
@@ -48,7 +47,7 @@ export default async function Build() {
       common.ssg.serverFile,
       null,
       "ssg",
-      port
+      port,
     );
 
     await ServerFile.write(encoder.encode(ServerCode));

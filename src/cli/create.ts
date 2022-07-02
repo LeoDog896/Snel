@@ -3,17 +3,16 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 import {
-  globalCss,
-  indexHtml,
-  rootSvelte,
-  gitIgnore,
-  Home,
-  mainjs,
   config,
+  gitIgnore,
+  globalCss,
+  Home,
+  indexHtml,
+  mainjs,
+  rootSvelte,
 } from "./templates.ts";
 import type { CreateProjectOptions } from "../shared/types.ts";
 import { ssgHome, ssgMain } from "../server_side/templates.ts";
@@ -26,7 +25,9 @@ export async function CreateProject(options: CreateProjectOptions) {
   const { root, port, projectName, mode, workingFolder } = options;
 
   const startTime = Date.now();
-  const projectRoot = workingFolder ? Deno.cwd() : `${Deno.cwd()}/${projectName}`;
+  const projectRoot = workingFolder
+    ? Deno.cwd()
+    : `${Deno.cwd()}/${projectName}`;
 
   if (!workingFolder) await Deno.mkdir(projectRoot, { recursive: true });
 
@@ -63,7 +64,9 @@ export async function CreateProject(options: CreateProjectOptions) {
       {
         name: "snel.config.js",
         path: projectRoot,
-        source: config(ToString({ port, mode, plugins: [], extendsImportMap: [] })),
+        source: config(
+          ToString({ port, mode, plugins: [], extendsImportMap: [] }),
+        ),
       },
       {
         name: `${root}.svelte`,
@@ -86,13 +89,12 @@ export async function CreateProject(options: CreateProjectOptions) {
         source: JSON.stringify(
           {
             tasks: scripts.build(),
-            files:
-              mode === "dom"
-                ? ["./src", "./public/index.html", "./public/global.css"]
-                : ["./src"],
+            files: mode === "dom"
+              ? ["./src", "./public/index.html", "./public/global.css"]
+              : ["./src"],
           },
           null,
-          2
+          2,
         ),
       },
       {

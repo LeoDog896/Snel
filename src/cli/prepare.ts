@@ -3,13 +3,12 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 import { Bundler, defaultPlugins } from "../../imports/bundler.ts";
 import { ensureFile, exists } from "../../imports/fs.ts";
 import { decoder, encoder } from "../shared/encoder.ts";
-import { join, basename } from "../../imports/path.ts";
+import { basename, join } from "../../imports/path.ts";
 import { HTMLMinify } from "../shared/utils.ts";
 
 const hotReloadPattern =
@@ -26,11 +25,11 @@ function preprocess(source: string) {
 
   source = source.replace(
     `<script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"></script>`,
-    ""
+    "",
   );
   source = source.replace(
     `<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>`,
-    ""
+    "",
   );
 
   return HTMLMinify(source);
@@ -92,7 +91,7 @@ export async function Dist() {
   let content = file;
 
   transform.forEach(
-    ({ replacer, target }) => (content = content.replace(target, replacer))
+    ({ replacer, target }) => (content = content.replace(target, replacer)),
   );
 
   await Deno.writeTextFile(indexHTML, content);

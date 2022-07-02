@@ -24,14 +24,17 @@ self.onmessage = async (event) => {
             response.status = 200;
 
             const client = new TextDecoder("utf-8").decode(
-              await Deno.readFile(join(Deno.cwd(), clientPath))
+              await Deno.readFile(join(Deno.cwd(), clientPath)),
             );
 
             response.body = client;
-          } if (request.url.pathname === "/__SNEL__HOT__RELOADING.js") {
+          }
+          if (request.url.pathname === "/__SNEL__HOT__RELOADING.js") {
             response.headers.set("content-type", "application/javascript");
 
-            const client = `(${ClientHot.toString()})("${(ipv4) ?? "localhost" }");`
+            const client = `(${ClientHot.toString()})("${
+              (ipv4) ?? "localhost"
+            }");`;
 
             response.status = 200;
             response.body = client;
@@ -40,8 +43,12 @@ self.onmessage = async (event) => {
             response.status = 200;
             let sendData = false;
 
-            const moduleRaw = await Deno.readTextFile(toFileUrl(join(Deno.cwd(), path)));
-            const base64Module = `data:application/javascript;base64,${btoa(unescape(encodeURIComponent(moduleRaw)))}`;
+            const moduleRaw = await Deno.readTextFile(
+              toFileUrl(join(Deno.cwd(), path)),
+            );
+            const base64Module = `data:application/javascript;base64,${
+              btoa(unescape(encodeURIComponent(moduleRaw)))
+            }`;
 
             const module = await import(base64Module);
             const App = module?.default;

@@ -50,7 +50,7 @@ import { colors } from "../../imports/fmt.ts";
 import type { snelConfig } from "./types.ts";
 import { exists } from "../../imports/fs.ts";
 
-// store extenas import maps
+// store external import maps
 const Cache = new Map<string, string>();
 
 /**

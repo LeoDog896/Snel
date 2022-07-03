@@ -7,7 +7,6 @@
 
 import { Bundler, defaultPlugins } from "../../imports/bundler.ts";
 import { ensureFile, exists } from "../../imports/fs.ts";
-import { decoder, encoder } from "../shared/encoder.ts";
 import { basename, join } from "../../imports/path.ts";
 import { HTMLMinify } from "../shared/utils.ts";
 
@@ -45,10 +44,8 @@ export async function Dist() {
 
   const entryHtml = "public/__index.html";
 
-  const copy = decoder.decode(await Deno.readFile("./public/index.html"));
-  const html = await Deno.create(entryHtml);
-
-  await html.write(encoder.encode(preprocess(copy)));
+  const copy = await Deno.readTextFile("./public/index.html");
+  await Deno.writeTextFile(entryHtml, preprocess(copy));
 
   const { bundles } = await bundler.bundle([entryHtml], {
     optimize: true,

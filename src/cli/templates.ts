@@ -169,4 +169,4 @@ ${
       : `export default ${root};`
   }`;
 
-export const config = (object: string) => `export default ${object};\n`;
+export const config = (object: string, type?: string) => `export default ${type ?? ""}${object};\n`;

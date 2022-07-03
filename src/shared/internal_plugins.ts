@@ -21,7 +21,7 @@ export async function DevServer(ipv4?: string) {
   if (mode === "dom") {
     try {
       return server({
-        contentBase: "public",
+        contentBase: ["public"],
         port,
         host: "0.0.0.0",
         verbose: false,

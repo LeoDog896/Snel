@@ -63,10 +63,11 @@ export async function CreateProject(options: CreateProjectOptions) {
     ],
     commonFiles: [
       {
-        name: "snel.config.js",
+        name: "snel.config.ts",
         path: projectRoot,
-        source: config(
+        source: `import type { snelConfig } from "https://deno.land/x/snel/mod.ts";\n\n` + config(
           ToString({ port, mode, plugins: [], extendsImportMap: [] }),
+          "<snelConfig>"
         ),
       },
       {

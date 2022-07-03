@@ -131,13 +131,13 @@ export const keyWords = {
   serve: "serve",
 };
 
-export async function loadConfig<T extends any>(path: string): Promise<T> {
+export async function loadConfig<T>(path: string): Promise<T> {
   const module = await import(toFileUrl(join(Deno.cwd(), path)).href);
 
   return module?.default;
 }
 
-export function ToString(object: object, deep = 1) {
+export function ToString(object: Record<string, any>, deep = 1) {
   let str = `{\n`;
 
   for (const [key, value] of Object.entries(object)) {
@@ -149,7 +149,7 @@ export function ToString(object: object, deep = 1) {
   return str;
 }
 
-function parser(type: any, deep: number): string {
+function parser(type: unknown, deep: number): string {
   switch (typeof type) {
     case "string":
       return `"${type}"`;

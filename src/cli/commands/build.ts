@@ -10,7 +10,6 @@ import { serverTemplate } from "../../server_side/templates.ts";
 import { RollupBuild } from "../../../compiler/build.ts";
 import type { snelConfig } from "../../shared/types.ts";
 import { Server } from "../../server_side/server.ts";
-import { encoder } from "../../shared/encoder.ts";
 import { colors } from "../../../imports/fmt.ts";
 import { Dist } from "../prepare.ts";
 
@@ -41,7 +40,6 @@ export default async function Build() {
       plugins,
     });
 
-    const ServerFile = await Deno.create(`${common.ssg.dir}/Server.js`);
     const ServerCode = serverTemplate(
       Server.toString(),
       common.ssg.serverFile,
@@ -50,8 +48,7 @@ export default async function Build() {
       port,
     );
 
-    await ServerFile.write(encoder.encode(ServerCode));
-    Deno.close(ServerFile.rid);
+    await Deno.writeTextFile(`${common.ssg.dir}/Server.js`, ServerCode);
 
     console.log(colors.green("build done."));
   }

@@ -22,7 +22,7 @@ export async function tsTranspiler(source: string, filename: string) {
     esbuild.stop();
 
     return code;
-  } catch (error: any) {
+  } catch (error) {
     throw new Error(
       colors.yellow(
         `Transpiling typescript: ${

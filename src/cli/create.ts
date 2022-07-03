@@ -70,7 +70,7 @@ export async function CreateProject(options: CreateProjectOptions) {
         ),
       },
       {
-        name: `index.svelte`,
+        name: `App.svelte`,
         path: `${projectRoot}/src/`,
         source: mode === "dom" ? rootSvelte : ssgMain,
       },
@@ -161,6 +161,9 @@ export async function CreateProject(options: CreateProjectOptions) {
 
     ${colors.blue("deno task watch")}
       Compile the project in dev mode but using watch mode.
+    
+    ${colors.blue("deno task check")}
+      Lint and format the project.
 
   We suggest that you begin by typing:
     ${workingFolder ? `` : `\n    ${colors.blue("cd")} ${projectName}`}

@@ -47,7 +47,7 @@ export async function RollupBuild({
     ] as any;
 
   const options: RollupOptions = {
-    input: "svelte-entry",
+    input: "\0svelte-entry",
     plugins: [...defaults],
     output: {
       dir,

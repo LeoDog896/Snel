@@ -2,15 +2,15 @@ import { Plugin } from "drollup";
 
 export function svelteEntry(): Plugin {
   return <Plugin>{
-    name: 'svelte-entry',
+    name: '\0svelte-entry',
     resolveId(source) {
-      if (source === 'svelte-entry') {
+      if (source === '\0svelte-entry') {
         return source;
       }
       return null;
     },
     load(id) {
-      if (id === 'virtual-module') {
+      if (id === '\0svelte-entry') {
         return `import App from "./App.svelte";
 
 new App({

@@ -12,7 +12,7 @@ import {
   preprocess as sveltePreprocess,
   VERSION,
   walk as svelteWalk,
-} from "../imports/compiler.ts";
+} from "compiler"
 
 import type { compileOptions, compileOut, PreprocessorGroup } from "./types.ts";
 

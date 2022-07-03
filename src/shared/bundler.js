@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { compile, preprocess } from "../../compiler/compiler.ts";
+import { compile, preprocess } from "compiler"
 import { compile as scssCompiler } from "scss";
 import { createFilter } from "drollup-util";
 import { tsTranspiler } from "../shared/transpiler.ts";
 import { URL_SVELTE_CDN } from "../shared/version.ts";
 import * as path from "path";
-import { less } from "../../imports/less.ts";
+import less from "less";
 
 // store all files to check if need to recompile it
 const cacheFiles = new Map();

@@ -9,6 +9,8 @@
     "fs": "https://deno.land/std@0.146.0/fs/mod.ts",
     "scss": "https://denopkg.com/crewdevio/deno_sass2@master/mod.ts",
     "drollup": "https://raw.githubusercontent.com/crewdevio/deno-rollup/main/mod.ts",
-    "drollup-util": "https://raw.githubusercontent.com/crewdevio/deno-rollup/main/src/rollup/createFilter.ts"
+    "drollup-util": "https://raw.githubusercontent.com/crewdevio/deno-rollup/main/src/rollup/createFilter.ts",
+    "compiler": "https://deno.land/x/svelte@v3.44.2/compiler.js",
+    "less": "https://deno.land/x/aleph@v0.2.28/vendor/less/less.js"
   }
 }

@@ -8,7 +8,7 @@
 import { common, resolverConfigFile, showHelp } from "./src/shared/utils.ts";
 import { CommandNotFound, HelpCommand } from "./src/shared/log.ts";
 import { notFoundConfig, PromptConfig } from "./src/cli/prompt.ts";
-import { VERSION as svelteVersion } from "./compiler/compiler.ts";
+import { VERSION as svelteVersion } from "compiler";
 import { VERSION as cliVersion } from "./src/shared/version.ts";
 import { flags, keyWords } from "./src/shared/utils.ts";
 import { CreateProject } from "./src/cli/create.ts";

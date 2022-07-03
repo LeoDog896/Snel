@@ -13,6 +13,7 @@ import {
 } from "../src/shared/internal_plugins.ts";
 import { rollup, OutputOptions, RollupOptions } from "drollup";
 import type { RollupBuildProps } from "./types.ts";
+import { svelteEntry } from "./svelteEntry.ts"
 
 export async function RollupBuild({
   dir = "./public/dist",
@@ -30,6 +31,7 @@ export async function RollupBuild({
         maps: "./import_map.json",
       }),
       ...plugins,
+      svelteEntry(),
       Svelte({ generate }),
       terser(),
     ]
@@ -39,6 +41,7 @@ export async function RollupBuild({
       }),
       ...plugins,
       (await DevServer(ipv4))!,
+      svelteEntry(),
       Svelte({ generate, dev: true }),
       terser(),
     ] as any;

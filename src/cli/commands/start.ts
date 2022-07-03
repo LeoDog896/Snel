@@ -18,6 +18,7 @@ import { RollupBuild } from "../../../compiler/build.ts";
 import { DevServer } from "../../server_side/server.ts";
 import * as colors from "fmt/colors.ts";
 import { serverLog } from "../prompt.ts";
+import { snelConfig } from "../../shared/types.ts";
 
 export default async function StartDev() {
   const { port, mode, plugins } = await loadConfig<snelConfig>(

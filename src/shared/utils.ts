@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { join, toFileUrl } from "../../imports/path.ts";
-import { colors } from "../../imports/fmt.ts";
-import { exists } from "../../imports/fs.ts";
+import { join, toFileUrl } from "path"
+import * as colors from "fmt/colors.ts";
+import { exists } from "fs";
 
 export async function open(url: string): Promise<void> {
   try {

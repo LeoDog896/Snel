@@ -1,6 +1,6 @@
 import { clientConnection } from "../dev_server/hotReloading.ts";
 import ClientHot from "../dev_server/hotReloadingClient.js";
-import { join, toFileUrl } from "../../imports/path.ts";
+import { join, toFileUrl } from "path";
 import { VERSION } from "../shared/version.ts";
 import { Application } from "./imports/oak.ts";
 import { htmlBody } from "./templates.ts";

@@ -13,11 +13,10 @@ import {
   resolverConfigFile,
 } from "../../shared/utils.ts";
 import { HotReload } from "../../dev_server/hotReloading.ts";
-import { existsSync } from "../../../imports/fs.ts";
+import { existsSync } from "fs";
 import { RollupBuild } from "../../../compiler/build.ts";
 import { DevServer } from "../../server_side/server.ts";
-import type { snelConfig } from "../../shared/types.ts";
-import { colors } from "../../../imports/fmt.ts";
+import * as colors from "fmt/colors.ts";
 import { serverLog } from "../prompt.ts";
 
 export default async function StartDev() {

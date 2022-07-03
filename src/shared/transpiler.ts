@@ -6,7 +6,7 @@
  */
 
 import * as esbuild from "../../imports/esbuild.ts";
-import { colors } from "../../imports/fmt.ts";
+import * as colors from "fmt/colors.ts";
 
 export async function tsTranspiler(source: string, filename: string) {
   try {

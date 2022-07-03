@@ -6,7 +6,7 @@
  */
 
 import type { CreateProjectOptions } from "../shared/types.ts";
-import { colors } from "../../imports/fmt.ts";
+import * as colors from "fmt/colors.ts";
 
 const isNumber = (n: string) => parseInt(n);
 
@@ -33,15 +33,10 @@ function validate(
 
 export function PromptConfig(
   count = 0,
-): Omit<CreateProjectOptions, "projectName"> {
+): Omit<CreateProjectOptions, "projectName" | "workingFolder"> {
   const answers: { [key: string]: string | number } = {};
 
   const questions = [
-    {
-      name: "root",
-      message: "what do you want the main component file to be called?",
-      _default: "App",
-    },
     {
       name: "port",
       message: "which port do you want the development server to run on?",
@@ -56,9 +51,6 @@ export function PromptConfig(
 
   for (const { message, name, _default } of questions) {
     switch (name) {
-      case "root":
-        answers[name] = prompt(colors.green(message), _default)!;
-        break;
       case "port":
         answers[name] = validate(
           [],
@@ -84,7 +76,7 @@ export function PromptConfig(
 
   const accept = confirm(colors.yellow("\nthis is the final configuration"));
 
-  if (accept) return answers as Omit<CreateProjectOptions, "projectName">;
+  if (accept) return answers as Omit<CreateProjectOptions, "projectName" | "workingFolder">;
 
   return count <= 1 ? PromptConfig(count + 1) : Deno.exit(0);
 }

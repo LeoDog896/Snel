@@ -11,18 +11,17 @@ import {
   globalCss,
   Home,
   indexHtml,
-  mainjs,
   rootSvelte,
 } from "./templates.ts";
 import type { CreateProjectOptions } from "../shared/types.ts";
 import { ssgHome, ssgMain } from "../server_side/templates.ts";
 import { createDir, createFile } from "./io.ts";
 import { ToString } from "../shared/utils.ts";
-import { colors } from "../../imports/fmt.ts";
-import { join } from "../../imports/path.ts";
+import * as colors from "fmt/colors.ts";
+import { join } from "path"
 
 export async function CreateProject(options: CreateProjectOptions) {
-  const { root, port, projectName, mode, workingFolder } = options;
+  const { port, projectName, mode, workingFolder } = options;
 
   const startTime = Date.now();
   const projectRoot = workingFolder
@@ -71,7 +70,7 @@ export async function CreateProject(options: CreateProjectOptions) {
         ),
       },
       {
-        name: `${root}.svelte`,
+        name: `index.svelte`,
         path: `${projectRoot}/src/`,
         source: mode === "dom" ? rootSvelte : ssgMain,
       },
@@ -98,12 +97,7 @@ export async function CreateProject(options: CreateProjectOptions) {
           null,
           2,
         ),
-      },
-      {
-        name: "main.js",
-        path: `${projectRoot}/src/`,
-        source: mainjs(root, mode),
-      },
+      }
     ],
     domDir: [
       {

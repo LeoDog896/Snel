@@ -7,7 +7,7 @@
 
 import type { DevServerProps, ServerProps } from "./types.ts";
 import { HotReload } from "../dev_server/hotReloading.ts";
-import { join, toFileUrl } from "../../imports/path.ts";
+import { join, toFileUrl } from "path";
 import { RollupBuild } from "../../compiler/build.ts";
 import { VERSION } from "../shared/version.ts";
 import { Application } from "./imports/oak.ts";

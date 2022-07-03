@@ -11,22 +11,17 @@ import {
   Svelte,
   terser,
 } from "../src/shared/internal_plugins.ts";
-import type { OutputOptions, RollupOptions } from "../imports/drollup.ts";
+import { rollup, OutputOptions, RollupOptions } from "drollup";
 import type { RollupBuildProps } from "./types.ts";
-import { toFileUrl } from "../imports/path.ts";
-import { rollup } from "../imports/drollup.ts";
 
 export async function RollupBuild({
   dir = "./public/dist",
-  entryFile = "./src/main.js",
   generate = "dom",
   plugins = [],
   production = false,
   cache = undefined,
   ipv4,
 }: RollupBuildProps) {
-  const base = toFileUrl(Deno.cwd()).href;
-
   generate = generate === "ssg" || generate === "ssr" ? "ssr" : "dom";
 
   const defaults = production
@@ -49,11 +44,11 @@ export async function RollupBuild({
     ] as any;
 
   const options: RollupOptions = {
-    input: new URL(entryFile, `${base}/`).href,
+    input: "svelte-entry",
     plugins: [...defaults],
     output: {
       dir,
-      format: "es" as const,
+      format: "es",
       sourcemap: !production,
     },
     cache,

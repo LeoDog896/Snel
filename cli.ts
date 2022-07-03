@@ -15,7 +15,7 @@ import { CreateProject } from "./src/cli/create.ts";
 import StartDev from "./src/cli/commands/start.ts";
 import { RollupBuild } from "./compiler/build.ts";
 import Build from "./src/cli/commands/build.ts";
-import { colors } from "./imports/fmt.ts";
+import * as colors from "fmt/colors.ts";
 
 const { args: Args } = Deno;
 type Command = "create" | "serve" | "dev" | "build";

@@ -1,6 +1,6 @@
 import { VERSION } from "../shared/version.ts";
 import { Application } from "./imports/oak.ts";
-import { join } from "../../imports/path.ts";
+import { join } from "path";
 import { htmlBody } from "./templates.ts";
 import { ServerProps } from "./types.ts";
 

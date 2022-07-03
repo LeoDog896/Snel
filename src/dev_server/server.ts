@@ -1,9 +1,9 @@
-import { serve, serveTls, ServeTlsInit } from "../../imports/http.ts";
+import { serve, serveTls, ServeTlsInit } from "http";
 import { mime } from "https://deno.land/x/mimetypes@v1.0.0/src/mime.ts";
 
 import type { MimeTypeMap } from "https://deno.land/x/mimetypes@v1.0.0/src/mime.ts";
-import { normalize, resolve } from "../../imports/path.ts";
-import type { Plugin } from "../../imports/drollup.ts";
+import { normalize, resolve } from "path";
+import type { Plugin } from "drollup";
 import HotClient from "./hotReloadingClient.js";
 
 export interface ServeOptions {

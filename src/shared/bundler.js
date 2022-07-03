@@ -6,11 +6,11 @@
  */
 
 import { compile, preprocess } from "../../compiler/compiler.ts";
-import { compile as scssCompiler } from "../../imports/scss.ts";
-import { createFilter } from "../../imports/drollup-util.ts";
+import { compile as scssCompiler } from "scss";
+import { createFilter } from "drollup-util";
 import { tsTranspiler } from "../shared/transpiler.ts";
 import { URL_SVELTE_CDN } from "../shared/version.ts";
-import * as path from "../../imports/path.ts";
+import * as path from "path";
 import { less } from "../../imports/less.ts";
 
 // store all files to check if need to recompile it

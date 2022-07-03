@@ -153,20 +153,4 @@ export const gitIgnore = (dir: string) =>
 .DS_Store
 /${dir}`;
 
-export const mainjs = (
-  root: string,
-  mode: "dom" | "ssr" | "ssg",
-) =>
-  `import ${root} from "./${root}.svelte";
-
-${
-    mode === "dom"
-      ? `new ${root}({
-  target: document.querySelector("#__snel"),
-  props: {},
-});
-`
-      : `export default ${root};`
-  }`;
-
 export const config = (object: string, type?: string) => `export default ${type ?? ""}${object};\n`;

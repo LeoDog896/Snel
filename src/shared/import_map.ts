@@ -40,15 +40,15 @@ import {
   normalize,
   relative,
   toFileUrl,
-} from "../../imports/path.ts";
-import type { NormalizedInputOptions, Plugin } from "../../imports/drollup.ts";
+} from "path"
+import type { NormalizedInputOptions, Plugin } from "drollup";
 import { loadConfig, resolverConfigFile } from "./utils.ts";
 import { ensureArray } from "./imports/ensureArray.ts";
 import { URL_SVELTE_CDN, VERSION } from "./version.ts";
 import { resolveId } from "./imports/resolveId.ts";
-import { colors } from "../../imports/fmt.ts";
+import * as colors from "fmt/colors.ts";
 import type { snelConfig } from "./types.ts";
-import { exists } from "../../imports/fs.ts";
+import { exists } from "fs";
 
 // store external import maps
 const Cache = new Map<string, string>();

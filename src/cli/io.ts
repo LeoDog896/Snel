@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { join } from "../../imports/path.ts";
+import { join } from "path";
 
 export async function createFile(name: string, path: string, source: string) {
   try {

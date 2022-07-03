@@ -6,8 +6,8 @@
  */
 
 import { Bundler, defaultPlugins } from "../../imports/bundler.ts";
-import { ensureFile, exists } from "../../imports/fs.ts";
-import { basename, join } from "../../imports/path.ts";
+import { ensureFile, exists } from "fs"
+import { basename, join } from "path";
 import { HTMLMinify } from "../shared/utils.ts";
 
 const hotReloadPattern =

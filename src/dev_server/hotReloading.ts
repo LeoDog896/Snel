@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Packet, Server } from "../../imports/wocket.ts";
-import { join } from "../../imports/path.ts";
+import { Server } from "wocket";
+import { join } from "path";
 
 export async function HotReload(
   toWatch: string | string[],
@@ -20,7 +20,7 @@ export async function HotReload(
     port: port,
   });
 
-  server.on("Reload", (packet: Packet) => {
+  server.on("Reload", packet => {
     server.to("Reload", packet.message);
   });
 

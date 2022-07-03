@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { Plugin, RollupBuild } from "../imports/drollup.ts";
+import type { Plugin, RollupBuild } from "drollup"
 
 export interface compileOptions {
   filename?: string;

@@ -5,11 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { Plugin } from "../../imports/drollup.ts";
+import type { Plugin } from "drollup";
 
 export interface CreateProjectOptions {
-  /** main component file */
-  root: string;
   /** port number for develoment server */
   port: number;
   projectName: string;

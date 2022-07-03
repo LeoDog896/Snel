@@ -126,7 +126,7 @@ async function Main() {
         flags: [...flags.help, ...flags.version],
       });
     }
-  } catch (error: any) {
+  } catch (error) {
     if (!(error instanceof Deno.errors.NotFound)) {
       console.log(error);
     }

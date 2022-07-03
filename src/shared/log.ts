@@ -7,10 +7,10 @@ export interface HelpCommandParams {
     alias: string[];
     description: string;
   };
-  flags: Array<{
+  flags: {
     description: string;
     alias: string[];
-  }>;
+  }[];
 }
 
 export interface CommandNotFoundParams {

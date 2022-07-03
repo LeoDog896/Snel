@@ -6,8 +6,8 @@ import { normalize, resolve } from "../../imports/path.ts";
 import type { Plugin } from "../../imports/drollup.ts";
 import HotClient from "./hotReloadingClient.js";
 
-export interface ServeOptions<T = unknown> {
-  contentBase: Array<string>;
+export interface ServeOptions {
+  contentBase: string[];
   port: number;
   host: string;
   headers: HeadersInit;
@@ -24,19 +24,12 @@ export interface ServeOptions<T = unknown> {
 
 export type Defined<T> = Exclude<T, undefined>;
 
-export type Inner<T extends ServeOptions<unknown>> = T extends ServeOptions<
-  infer X
-> ? X
-  : never;
-
 export type ReadReturn = {
   err: ErrorConstructor | null;
   filePath: string;
   size: string | null;
   content: Uint8Array | null;
 };
-
-const { readFile } = Deno;
 
 /**
  * Serve your rolled up bundle like webpack-dev-server
@@ -45,8 +38,8 @@ const { readFile } = Deno;
 
 type InitOptions =
   | string
-  | Array<string>
-  | { [K in keyof Options]?: Inner<Options[K]> };
+  | string[]
+  | Partial<ServeOptions>;
 
 class BuildServer {
   options: ServeOptions = {
@@ -236,7 +229,7 @@ const readFileFromContentBase = async (
   // Try Read
   try {
     const [content, fileInfo] = await Promise.all([
-      readFile(filePath),
+      Deno.readFile(filePath),
       Deno.stat(filePath),
     ]);
 
@@ -260,8 +253,6 @@ const readFileFromContentBase = async (
     }
   }
 };
-
-type Options = Record<string, ServeOptions<unknown>>;
 
 export default (initOptions: InitOptions = [""]): Plugin => {
   const server = new BuildServer(initOptions);

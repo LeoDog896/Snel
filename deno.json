@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "check": "deno lint && deno fmt",
+    "install": "deno install --name=snel -A -f -r --no-check --unstable ./cli.ts"
+  }
+}

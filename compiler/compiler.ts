@@ -18,8 +18,8 @@ import type { compileOptions, compileOut, PreprocessorGroup } from "./types.ts";
 
 export function compile(source: string, options: compileOptions) {
   try {
-    return svelteCompile(source, options) as compileOut;
-  } catch (error: any) {
+    return svelteCompile(source, options as any) as unknown as compileOut;
+  } catch (error) {
     // throw error data
     const { name, start, end, pos, filename, frame, stack, message } = error;
 
@@ -41,10 +41,10 @@ export function preprocess(
   preprocessor: PreprocessorGroup | PreprocessorGroup[],
   options?: { filename?: string },
 ) {
-  return sveltePreprocess(source, preprocessor, options);
+  return sveltePreprocess(source, preprocessor as any, options);
 }
 
-export function parse(template: string, options?: any) {
+export function parse(template: string, options?: ParserOptions | undefined) {
   return svelteParse(template, options);
 }
 

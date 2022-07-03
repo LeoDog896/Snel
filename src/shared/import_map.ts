@@ -90,7 +90,7 @@ async function resolveExternalsImportMaps() {
               for (const [key, value] of Object.entries(externals.imports)) {
                 externaMaps[key] = value;
               }
-            } catch (error: any) {
+            } catch {
               throw new Error(
                 colors.red(
                   `can't load external import map ${colors.yellow(map)}`,
@@ -341,7 +341,7 @@ export function ImportMapPlugin(
       });
     },
 
-    async resolveId(source, importer) {
+    resolveId(source, importer) {
       const address = getAddress(source, importer);
 
       if (address) {

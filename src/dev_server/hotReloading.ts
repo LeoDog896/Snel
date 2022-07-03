@@ -36,7 +36,7 @@ export async function HotReload(
         server.to("Reload", "compiling");
         try {
           await action();
-        } catch (error: any) {
+        } catch (error) {
           const {
             message,
             stack,

@@ -39,6 +39,7 @@ export async function CreateProject(options: CreateProjectOptions) {
     commonScript: {
       start: "snel serve",
       build: "snel build",
+      check: "deno lint && deno fmt"
     },
     build() {
       return mode === "dom"
@@ -52,7 +53,7 @@ export async function CreateProject(options: CreateProjectOptions) {
       {
         name: "index.html",
         path: `${projectRoot}/public`,
-        source: await indexHtml("/dist/main.js"),
+        source: indexHtml("/dist/main.js"),
       },
       {
         name: "global.css",

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export const indexHtml = async (script: string) =>
+export const indexHtml = (script: string) =>
   `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -161,7 +161,7 @@ export const mainjs = (
 
 ${
     mode === "dom"
-      ? `const ${root.toLowerCase()} = new ${root}({
+      ? `new ${root}({
   target: document.querySelector("#__snel"),
   props: {},
 });

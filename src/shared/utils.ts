@@ -19,7 +19,7 @@ export async function open(url: string): Promise<void> {
     const process = Deno.run({ cmd: [programAliases[Deno.build.os], url] });
     await process.status();
     process.close();
-  } catch (error: unknown) {
+  } catch (_) {
     /* nothing here */
   }
 }
@@ -74,7 +74,7 @@ export async function getIP() {
 
       return ip.length ? ip : null;
     }
-  } catch (error) {
+  } catch (_) {
     return null;
   }
 }
@@ -167,7 +167,6 @@ function parser(type: any, deep: number): string {
       return `${type.toString()}`;
 
     // deno-lint-ignore no-fallthrough
-
     case "object":
       if (type instanceof Object && !Array.isArray(type)) {
         return ToString(type, deep * 2);

@@ -9,10 +9,7 @@ import { join } from "../../imports/path.ts";
 
 export async function createFile(name: string, path: string, source: string) {
   try {
-    const file = await Deno.create(join(path, name));
-    const encoder = new TextEncoder();
-
-    await file.write(encoder.encode(source));
+    await Deno.writeTextFile(join(path, name), source)
 
     return true;
   } catch (error: unknown) {

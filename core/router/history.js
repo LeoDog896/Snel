@@ -12,7 +12,7 @@ function getLocation(source) {
   };
 }
 
-function createHistory(source, options) {
+function createHistory(source) {
   const listeners = [];
   let location = getLocation(source);
 
@@ -68,8 +68,8 @@ function createMemorySource(initialPathname = "/") {
     get location() {
       return stack[index];
     },
-    addEventListener(name, fn) {},
-    removeEventListener(name, fn) {},
+    addEventListener() {},
+    removeEventListener() {},
     history: {
       get entries() {
         return stack;

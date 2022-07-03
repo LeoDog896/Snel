@@ -13,7 +13,7 @@ import {
   resolverConfigFile,
 } from "../../shared/utils.ts";
 import { HotReload } from "../../dev_server/hotReloading.ts";
-import { exists, existsSync } from "../../../imports/fs.ts";
+import { existsSync } from "../../../imports/fs.ts";
 import { RollupBuild } from "../../../compiler/build.ts";
 import { DevServer } from "../../server_side/server.ts";
 import type { snelConfig } from "../../shared/types.ts";
@@ -86,7 +86,7 @@ export default async function StartDev() {
       if (run?.files && run.files.length > 0) {
         toWatch = run.files?.filter((file) => existsSync(file));
       }
-    } catch (e) { /* do nothing  */ }
+    } catch { /* do nothing  */ }
 
     // hot reloading
     await HotReload(toWatch, port + 1, async () => {

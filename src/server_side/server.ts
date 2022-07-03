@@ -127,7 +127,6 @@ export async function DevServer({
     {
       type: "module",
       deno: {
-        namespace: true,
         permissions: {
           write: true,
           read: true,

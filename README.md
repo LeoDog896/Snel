@@ -44,7 +44,7 @@ create web application using deno and svelte
 the only thing you need is to run the installation command.
 
 ```console
-deno install --allow-run --allow-read --name=snel -q -A -f -r --no-check --unstable https://deno.land/x/snel/cli.ts
+deno install --name=snel -A -f -r --no-check --unstable https://deno.land/x/snel/cli.ts
 ```
 
 ## how to create a project with Snel?

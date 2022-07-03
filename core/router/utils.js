@@ -190,7 +190,7 @@ function pick(routes, uri) {
         break;
       }
 
-      let dynamicMatch = paramRe.exec(routeSegment);
+      const dynamicMatch = paramRe.exec(routeSegment);
 
       if (dynamicMatch && !isRootUri) {
         const value = decodeURIComponent(uriSegment);

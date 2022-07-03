@@ -96,8 +96,8 @@ export default (options = {}) => {
         code,
         {
           async script({ content, attributes, filename }) {
-            let code = content;
-            let isTs = attributes?.lang === "ts";
+            const code = content;
+            const isTs = attributes?.lang === "ts";
 
             return {
               // transpile to javascript
@@ -116,7 +116,7 @@ export default (options = {}) => {
                 const { css: code } = await less.render(content);
                 css = code;
               }
-            } catch (error) {
+            } catch (_) {
               throw new Error(
                 colors.red(`compiling to css ${colors.yellow(filename)}`),
               ).message;

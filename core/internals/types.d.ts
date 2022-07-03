@@ -538,7 +538,7 @@ declare module "svelte/store" {
     start?: StartStopNotifier<T>,
   ): Writable<T>;
   /** One or more `Readable`s. */
-  type Stores = Readable<any> | [Readable<any>, ...Array<Readable<any>>];
+  type Stores = Readable<any> | [Readable<any>, ...Readable<any>[]];
   /** One or more values from `Readable` stores. */
   type StoresValues<T> = T extends Readable<infer U> ? U
     : {
@@ -794,7 +794,7 @@ declare module "snel" {
     /**
      * Match route from path name.
      */
-    MatchRoute(path: string, route: string): Boolean;
+    MatchRoute(path: string, route: string): boolean;
 
     /**
      * get params from request object

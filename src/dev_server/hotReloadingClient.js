@@ -130,25 +130,20 @@ export default (__SNEL__HOST__) => {
                   </div>
                 </div>
               </div>`;
-
-          function update(text) {
-            Prism.plugins.NormalizeWhitespace.setDefaults({
-              "remove-trailing": true,
-              "remove-indent": true,
-              "left-trim": true,
-              "right-trim": true,
-            });
-            let result_element = document.querySelector(
-              "#highlighting-content",
-            );
-            // Update code
-            result_element.innerHTML = text;
-            Prism.highlightElement(result_element);
-          }
-
-          update(code);
+          Prism.plugins.NormalizeWhitespace.setDefaults({
+            "remove-trailing": true,
+            "remove-indent": true,
+            "left-trim": true,
+            "right-trim": true,
+          });
+          const result_element = document.querySelector(
+            "#highlighting-content",
+          );
+          // Update code
+          result_element.innerHTML = code;
+          Prism.highlightElement(result_element);
         }
-      } catch (error) {}
+      } catch {}
     });
   } else {
     console.log(

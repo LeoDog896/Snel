@@ -126,7 +126,7 @@ export const serverTemplate = (
 import { htmlBody } from "https://deno.land/x/snel@v${VERSION}/src/server_side/templates.ts";
 import { Application } from "https://denopkg.com/crewdevio/tools@main/server_runtime/mod.ts";
 import { VERSION } from "https://deno.land/x/snel@v${VERSION}/src/shared/version.ts";
-import { join, toFileUrl } from "https://deno.land/std@0.113.0/path/mod.ts";
+import { join, toFileUrl } from "https://deno.land/std@0.146.0/path/mod.ts";
 
 ${source}
 

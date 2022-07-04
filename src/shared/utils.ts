@@ -9,21 +9,6 @@ import { join, toFileUrl } from "path"
 import * as colors from "fmt/colors.ts";
 import { exists } from "fs";
 
-export async function open(url: string): Promise<void> {
-  try {
-    const programAliases = {
-      windows: "explorer",
-      darwin: "open",
-      linux: "sensible-browser",
-    };
-    const process = Deno.run({ cmd: [programAliases[Deno.build.os], url] });
-    await process.status();
-    process.close();
-  } catch (_) {
-    /* nothing here */
-  }
-}
-
 export const flags = {
   help: ["--help", "-h"],
   version: ["-v", "--version"],
@@ -136,7 +121,7 @@ export async function loadConfig<T>(path: string): Promise<T> {
   return module?.default;
 }
 
-export function ToString(object: Record<string, any>, deep = 1) {
+export function ToString(object: Record<string, unknown>, deep = 1) {
   let str = `{\n`;
 
   for (const [key, value] of Object.entries(object)) {
@@ -168,7 +153,7 @@ function parser(type: unknown, deep: number): string {
     // deno-lint-ignore no-fallthrough
     case "object":
       if (type instanceof Object && !Array.isArray(type)) {
-        return ToString(type, deep * 2);
+        return ToString(type as Record<string, any>, deep * 2);
       } else if (Array.isArray(type)) {
         return `[${
           type.map(

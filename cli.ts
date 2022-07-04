@@ -5,19 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { resolverConfigFile, showHelp } from "./src/shared/utils.ts";
+import { showHelp } from "./src/shared/utils.ts";
 import { CommandNotFound, HelpCommand } from "./src/shared/log.ts";
-import { notFoundConfig } from "./src/cli/prompt.ts";
 import { VERSION as svelteVersion } from "compiler";
 import { VERSION as cliVersion } from "./src/shared/version.ts";
 import { flags, keyWords } from "./src/shared/utils.ts";
 import { CreateProject } from "./src/cli/create.ts";
-import StartDev from "./src/cli/commands/start.ts";
-import Build from "./src/cli/commands/build.ts";
 import * as colors from "fmt/colors.ts";
 
 const { args: Args } = Deno;
-type Command = "create" | "dev" | "build";
+type Command = "create";
 const command = Args[0] as Command;
 
 const instructs = {
@@ -49,33 +46,7 @@ const instructs = {
         workingFolder: Args.length == 1,
       });
     }
-  },
-  // compile an bundle for production
-  async build() {
-    if (flags.help.includes(Args[1])) {
-      return HelpCommand({
-        command: {
-          alias: [keyWords.build],
-          description: "build application for production",
-        },
-        flags: [{ alias: flags.help, description: "show command help" }],
-      });
-    } else if (await resolverConfigFile()) await Build();
-    else notFoundConfig();
-  },
-  // start dev server
-  async dev() {
-    if (flags.help.includes(Args[1])) {
-      return HelpCommand({
-        command: {
-          alias: [keyWords.dev],
-          description: "build and serve in a dev server",
-        },
-        flags: [{ alias: flags.help, description: "show command help" }],
-      });
-    } else if (await resolverConfigFile()) await StartDev();
-    else notFoundConfig();
-  },
+  }
 };
 
 async function Main() {

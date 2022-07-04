@@ -7,19 +7,14 @@
 
 import {
   common,
-  ipv4,
-  loadConfig,
-  resolverConfigFile,
+  ipv4
 } from "../../shared/utils.ts";
 import { RollupBuild } from "../../../compiler/build.ts";
 import { DevServer } from "../../server_side/server.ts";
 import * as colors from "fmt/colors.ts";
 import { snelConfig } from "../../shared/types.ts";
 
-export default async function StartDev() {
-  const { port, plugins } = await loadConfig<snelConfig>(
-    await resolverConfigFile(),
-  )!;
+export async function StartDev({ port, plugins }: Partial<snelConfig>) {
 
   console.log(colors.bold(colors.cyan("starting development server.")));
 
@@ -29,10 +24,10 @@ export default async function StartDev() {
     .split(Deno.build.os === "windows" ? "\\" : "/")
     .pop()!;
 
-  const { str: ip, ipv4: ipV4 } = await ipv4(port);
+  const { str: ip, ipv4: ipV4 } = await ipv4(port ?? 3000);
   const localNet = ip
     ? `${colors.bold("On Your Network:")}  ${ip}:${
-      colors.bold(port.toString())
+      colors.bold((port ?? 3000).toString())
     }`
     : "";
 
@@ -45,14 +40,10 @@ export default async function StartDev() {
 
   // SSG/SSR development server
   await DevServer({
-    path: common.ssg.serverFile,
-    clientPath: null,
-    mode: "ssg",
     port,
     outDir,
-    plugins,
+    plugins: plugins ?? [],
     dirName,
-    localNet,
-    ipv4: ipV4!,
+    localNet
   });
 }

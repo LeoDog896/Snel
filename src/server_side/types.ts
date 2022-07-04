@@ -12,13 +12,9 @@ export interface HtmlBodyProps {
   html?: string;
   head?: string;
   client?: string | null | undefined;
-  hotReloading?: string | null | undefined;
 }
 
 export interface ServerProps {
-  path: string;
-  clientPath: string | null | undefined;
-  mode: "ssr" | "ssg";
   port?: number | string;
   dist?: boolean;
 }
@@ -28,5 +24,4 @@ export interface DevServerProps extends Omit<ServerProps, "dist"> {
   plugins: Plugin[];
   dirName: string;
   localNet: string;
-  ipv4?: string;
 }

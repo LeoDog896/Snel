@@ -8,3 +8,5 @@
 export type { snelConfig } from "./src/shared/types.ts";
 export * as Compiler from "compiler";
 export * as Core from "./core/utils/mod.ts";
+export { Build } from "./src/cli/commands/build.ts";
+export { StartDev } from "./src/cli/commands/start.ts";

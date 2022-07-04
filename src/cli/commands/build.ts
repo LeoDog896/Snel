@@ -5,17 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { common, loadConfig, resolverConfigFile } from "../../shared/utils.ts";
+import { common } from "../../shared/utils.ts";
 import { RollupBuild } from "../../../compiler/build.ts";
 import type { snelConfig } from "../../shared/types.ts";
 import * as colors from "fmt/colors.ts";
 import { Dist } from "../prepare.ts";
 
-export default async function Build() {
+export async function Build({ plugins }: Partial<snelConfig>) {
   console.log(colors.green("preparing files for production.\n"));
-  const { plugins } = await loadConfig<snelConfig>(
-    await resolverConfigFile(),
-  )!;
 
   await RollupBuild({
     dir: common.dom.dir,

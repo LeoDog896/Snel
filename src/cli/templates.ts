@@ -148,9 +148,26 @@ export const Home = `<script>
 </style>
 `;
 
+export const buildScript = `import { snelConfig, Build } from "snel";
+
+export const config = <Partial<snelConfig>>{
+  port: 3000,
+  plugins: [],
+  extendsImportMap: [],
+};
+
+if (import.meta.main) {
+  await Build(config)
+};
+`;
+
+export const devScript = `import { StartDev } from "snel";
+import { config } from "./build.ts";
+
+await StartDev(config);
+`
+
 export const gitIgnore = (dir: string) =>
   `/public/dist/
 .DS_Store
 /${dir}`;
-
-export const config = (object: string, type?: string) => `export default ${type ?? ""}${object};\n`;

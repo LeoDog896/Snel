@@ -4,7 +4,6 @@ import { mime } from "https://deno.land/x/mimetypes@v1.0.0/src/mime.ts";
 import type { MimeTypeMap } from "https://deno.land/x/mimetypes@v1.0.0/src/mime.ts";
 import { normalize, resolve } from "path";
 import type { Plugin } from "drollup";
-import HotClient from "./hotReloadingClient.js";
 
 export interface ServeOptions {
   contentBase: string[];
@@ -21,8 +20,6 @@ export interface ServeOptions {
   historyApiFallback?: string | boolean;
   ipv4?: string;
 }
-
-export type Defined<T> = Exclude<T, undefined>;
 
 export type ReadReturn = {
   err: ErrorConstructor | null;
@@ -89,7 +86,7 @@ class BuildServer {
       headers.set("Content-Type", "application/javascript");
 
       return new Response(
-        `(${HotClient.toString()})(location.hostname)`,
+        `console.log(1)`,
         {
           headers,
         },

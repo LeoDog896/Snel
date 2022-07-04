@@ -6,18 +6,19 @@
  */
 
 import {
-  config,
   gitIgnore,
   globalCss,
   Home,
   indexHtml,
   rootSvelte,
+  buildScript,
+  devScript
 } from "./templates.ts";
 import type { CreateProjectOptions } from "../shared/types.ts";
 import { createDir, createFile } from "./io.ts";
-import { ToString } from "../shared/utils.ts";
 import * as colors from "fmt/colors.ts";
-import { join } from "path"
+import { join, toFileUrl } from "path"
+import { URL_SVELTE_CDN, VERSION } from "../shared/version.ts";
 
 export async function CreateProject(options: CreateProjectOptions) {
   const { projectName, workingFolder } = options;
@@ -30,13 +31,13 @@ export async function CreateProject(options: CreateProjectOptions) {
   if (!workingFolder) await Deno.mkdir(projectRoot, { recursive: true });
 
   const tasks = {
-    dev: "snel dev",
-    build: "snel build",
+    dev: "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --import-map=import_map.json ./dev.ts",
+    build: "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --import-map=import_map.json ./build.ts",
     check: "deno lint && deno fmt"
   };
 
   const builder = {
-    commonFiles: [
+    files: [
       {
         name: "index.html",
         path: `${projectRoot}/public`,
@@ -48,12 +49,32 @@ export async function CreateProject(options: CreateProjectOptions) {
         source: globalCss,
       },
       {
-        name: "snel.config.ts",
+        name: "import_map.json",
         path: projectRoot,
-        source: `import type { snelConfig } from "https://deno.land/x/snel/mod.ts";\n\n` + config(
-          ToString({ port: 3000, plugins: [], extendsImportMap: [] }),
-          "<Partial<snelConfig>>"
-        ),
+        source: JSON.stringify({
+          imports: {
+            "snel/": `https://deno.land/x/snel@v${VERSION}/`,
+            snel: `https://deno.land/x/snel@v${VERSION}/mod.ts`,
+            "snel/core/": `https://deno.land/x/snel@v${VERSION}/core/`,
+            "snel/utils/": `https://deno.land/x/snel@v${VERSION}/core/utils/`,
+            "snel/utils": `https://deno.land/x/snel@v${VERSION}/core/utils/mod.ts`,
+            svelte: URL_SVELTE_CDN,
+            "svelte/": `${URL_SVELTE_CDN}/`,
+            "@/": "./",
+            "~/": `${toFileUrl(join(projectRoot, "src")).href}/`,
+            "$/": `${toFileUrl(projectRoot).href}/`,
+          }
+        }, null, 2)
+      },
+      {
+        name: "build.ts",
+        path: projectRoot,
+        source: buildScript
+      },
+      {
+        name: "dev.ts",
+        path: projectRoot,
+        source: devScript
       },
       {
         name: `App.svelte`,
@@ -83,7 +104,7 @@ export async function CreateProject(options: CreateProjectOptions) {
         ),
       }
     ],
-    commonDirs: [
+    dirs: [
       {
         name: "src",
         path: projectRoot,
@@ -95,12 +116,12 @@ export async function CreateProject(options: CreateProjectOptions) {
     ]
   };
 
-  for (const dir of builder.commonDirs) {
+  for (const dir of builder.dirs) {
     const { name, path } = dir;
     await createDir(name, path);
   }
 
-  for (const file of builder.commonFiles) {
+  for (const file of builder.files) {
     const { name, path, source } = file;
     await createFile(name, path, source);
   }

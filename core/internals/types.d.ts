@@ -459,11 +459,6 @@ interface GetPropsParams {
   isCurrent: boolean;
 }
 
-interface RouterProps {
-  basepath?: string;
-  url?: string;
-}
-
 declare module "svelte" {
   export function beforeUpdate(fn: () => any): void;
   export function onMount(fn: () => any): void;
@@ -764,19 +759,6 @@ declare module "svelte-routing" {
 declare module "svelte-routing/Link.svelte" {
   export default class Link extends SvelteComponentTyped<LinkProps> {}
 }
-
-declare module "svelte-routing/Route.svelte" {
-  export default class Route extends SvelteComponentTyped<
-    RouteProps,
-    Record<string, any>,
-    RouteSlots
-  > {}
-}
-
-declare module "svelte-routing/Router.svelte" {
-  export default class Router extends SvelteComponentTyped<RouterProps> {}
-}
-
 declare module "snel" {
   interface Env {
     Get(env: string): string | undefined;

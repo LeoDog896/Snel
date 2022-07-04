@@ -127,8 +127,7 @@ you can see the different options available for each command using:
 export const keyWords = {
   create: "create",
   build: "build",
-  dev: "dev",
-  serve: "serve",
+  dev: "dev"
 };
 
 export async function loadConfig<T>(path: string): Promise<T> {
@@ -184,7 +183,6 @@ function parser(type: unknown, deep: number): string {
 
 // output files and dirs
 export const common = {
-  entryFile: "./src/main.js",
   dom: {
     dir: "./public/dist",
   },

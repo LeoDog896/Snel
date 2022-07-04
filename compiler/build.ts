@@ -17,14 +17,11 @@ import { svelteEntry } from "./svelteEntry.ts"
 
 export async function RollupBuild({
   dir = "./public/dist",
-  generate = "dom",
   plugins = [],
   production = false,
   cache = undefined,
   ipv4,
 }: RollupBuildProps) {
-  generate = generate === "ssg" || generate === "ssr" ? "ssr" : "dom";
-
   const defaults = production
     ? [
       ImportMapPlugin({
@@ -32,7 +29,7 @@ export async function RollupBuild({
       }),
       ...plugins,
       svelteEntry(),
-      Svelte({ generate }),
+      Svelte(),
       terser(),
     ]
     : [
@@ -42,7 +39,7 @@ export async function RollupBuild({
       ...plugins,
       (await DevServer(ipv4))!,
       svelteEntry(),
-      Svelte({ generate, dev: true }),
+      Svelte({ dev: true }),
       terser(),
     ] as any;
 

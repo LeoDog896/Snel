@@ -35,7 +35,6 @@ export type ReadReturn = {
  * Serve your rolled up bundle like webpack-dev-server
  * @param {ServeOptions|string|string[]} options
  */
-
 type InitOptions =
   | string
   | string[]
@@ -61,9 +60,9 @@ class BuildServer {
       this.options.contentBase = typeof initOptions === "string"
         ? [initOptions]
         : initOptions;
+    } else {
+      this.options = { ...this.options, ...initOptions };
     }
-
-    Object.assign(this.options, initOptions);
 
     this.options.contentBase = typeof this.options.contentBase === "string"
       ? [this.options.contentBase]
@@ -74,7 +73,7 @@ class BuildServer {
     }
 
     !this.options.https
-      ? serve(this.requestHandler, {
+      ? serve(req => this.requestHandler(req), {
         port: this.options.port,
         hostname: this.options.host,
       })
@@ -89,14 +88,12 @@ class BuildServer {
       const headers = new Headers();
       headers.set("Content-Type", "application/javascript");
 
-      const response = new Response(
+      return new Response(
         `(${HotClient.toString()})(location.hostname)`,
         {
           headers,
         },
       );
-
-      return response;
     }
 
     // Remove querystring

@@ -11,7 +11,6 @@ export interface compileOptions {
   filename?: string;
   name?: string;
   format?: "esm" | "cjs";
-  generate?: "dom" | "ssr";
   dev?: boolean;
   immutable?: boolean;
   hydratable?: boolean;
@@ -108,7 +107,6 @@ export interface PreprocessorProps {
 export interface RollupBuildProps {
   dir?: string;
   entryFile?: string;
-  generate?: "dom" | "ssg" | "ssr";
   plugins?: Plugin[];
   production?: boolean;
   ipv4?: string;

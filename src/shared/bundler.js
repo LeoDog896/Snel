@@ -141,7 +141,7 @@ export default (options = {}) => {
 
       const compiled = compile(code, {
         filename: filename,
-        generate: options?.generate ?? "dom",
+        generate: "dom",
         dev: options?.dev ?? false,
         sveltePath: URL_SVELTE_CDN,
         hydratable: true,

@@ -11,7 +11,7 @@ export function svelteEntry(): Plugin {
     },
     load(id) {
       if (id === '\0svelte-entry') {
-        return `import App from "./App.svelte";
+        return `import App from "./src/App.svelte";
 
 new App({
   target: document.body,

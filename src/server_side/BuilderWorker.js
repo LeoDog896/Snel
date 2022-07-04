@@ -23,9 +23,7 @@ self.onmessage = async (event) => {
             response.headers.set("content-type", "application/javascript");
             response.status = 200;
 
-            const client = new TextDecoder("utf-8").decode(
-              await Deno.readFile(join(Deno.cwd(), clientPath)),
-            );
+            const client = await Deno.readTextFile(join(Deno.cwd(), clientPath));
 
             response.body = client;
           }

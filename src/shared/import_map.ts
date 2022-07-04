@@ -238,8 +238,6 @@ const readFile = async (
     snel: `https://deno.land/x/snel@v${VERSION}/mod.ts`,
     "snel/": `https://deno.land/x/snel@v${VERSION}/`,
     "snel/core/": `https://deno.land/x/snel@v${VERSION}/core/`,
-    "svelte-routing/": `https://deno.land/x/snel@v${VERSION}/core/router/`,
-    "svelte-routing": `https://deno.land/x/snel@v${VERSION}/core/router/mod.ts`,
     "snel/utils/": `https://deno.land/x/snel@v${VERSION}/core/utils/`,
     "snel/utils": `https://deno.land/x/snel@v${VERSION}/core/utils/mod.ts`,
     svelte: URL_SVELTE_CDN,

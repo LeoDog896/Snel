@@ -6,52 +6,24 @@
  */
 
 import { common, loadConfig, resolverConfigFile } from "../../shared/utils.ts";
-import { serverTemplate } from "../../server_side/templates.ts";
 import { RollupBuild } from "../../../compiler/build.ts";
 import type { snelConfig } from "../../shared/types.ts";
-import { Server } from "../../server_side/server.ts";
 import * as colors from "fmt/colors.ts";
 import { Dist } from "../prepare.ts";
 
 export default async function Build() {
   console.log(colors.green("preparing files for production.\n"));
-  const { mode, plugins, port } = await loadConfig<snelConfig>(
+  const { plugins } = await loadConfig<snelConfig>(
     await resolverConfigFile(),
   )!;
 
-  if (mode === "dom") {
-    await RollupBuild({
-      dir: common.dom.dir,
-      entryFile: common.entryFile,
-      production: true,
-      generate: mode,
-      plugins,
-    });
+  await RollupBuild({
+    dir: common.dom.dir,
+    production: true,
+    plugins,
+  });
 
-    await Dist();
-  }
-
-  if (mode === "ssg") {
-    await RollupBuild({
-      dir: common.ssg.dir,
-      entryFile: common.entryFile,
-      production: true,
-      generate: mode,
-      plugins,
-    });
-
-    const ServerCode = serverTemplate(
-      Server.toString(),
-      common.ssg.serverFile,
-      null,
-      "ssg",
-      port,
-    );
-
-    await Deno.writeTextFile(`${common.ssg.dir}/Server.js`, ServerCode);
-
-    console.log(colors.green("build done."));
-  }
+  await Dist();
 
   Deno.exit(0);
 }

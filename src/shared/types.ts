@@ -13,8 +13,6 @@ export interface CreateProjectOptions {
   projectName: string;
   /** True to create the project on the working dir (./) */
   workingFolder: boolean;
-  /** mode to build */
-  mode: "ssr" | "dom" | "ssg";
 }
 
 export interface snelConfig extends Omit<CreateProjectOptions, "projectName"> {
@@ -28,7 +26,6 @@ export interface snelConfig extends Omit<CreateProjectOptions, "projectName"> {
    * export default <snelConfig>{
    *    root: "./src/App.svelte",
    *    port: 3000,
-   *    mode: "dom",
    *    plugins: [json(), image({ dom: false })],
    * };
    * ```

@@ -25,7 +25,6 @@ export interface ServerProps {
 
 export interface DevServerProps extends Omit<ServerProps, "dist"> {
   outDir: string;
-  entryFile: string;
   plugins: Plugin[];
   dirName: string;
   localNet: string;

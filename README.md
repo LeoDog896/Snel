@@ -36,7 +36,6 @@ create web application using deno and svelte
 - [import maps](https://github.com/WICG/import-maps) support
 - support for scss and less out of the box
 - support for typescript
-- [SSG](docs/ssg.md) (experimental)
 - SSR (soon)
 
 ## What do I need to start using Snel?
@@ -60,7 +59,7 @@ then you just have to enter the created project and start the development server
 ```console
 cd ./[project name]
 
-trex run start
+deno task dev
 ```
 
 this starts your application on a development server in the port you entered in
@@ -113,7 +112,6 @@ or `snel.config.ts`.
 ```javascript
 export default {
   port: 3000, // development server port
-  mode: "dom", // type project "dom" | "ssg"
   plugins: [], // plugins must be compatible with rollup deno
   extendsImportMap: [
     // extends import map using externas import maps
@@ -125,7 +123,6 @@ export default {
 config options:
 
 - port (number): port number for development server
-- mode (string): type project "dom" | "ssg"
 - plugins (Plugin[ ]): plugins must be compatible with
   [rollup deno](https://deno.land/x/drollup)
 - extendsImportMap (string[ ]): extends from externas import maps
@@ -138,45 +135,10 @@ provide type checking:
 ```typescript
 import type { snelConfig } from "https://deno.land/x/snel/mod.ts";
 
-export default <snelConfig>{
+export default <Partial<snelConfig>>{
   ...
 };
 ```
-
-## Manage import maps dependencies using [trex](https://github.com/crewdevio/Trex)
-
-if you don't have an import map.json file you can create it using the
-`trex install` command, trex is mainly focused on handling dependencies for
-`deno` but this doesn't prevent you from being able to use it to handle your
-dependencies for `snel/svelte`. to install any dependency you just have to use
-the [custom command](https://github.com/crewdevio/Trex#adding-custom-packages)
-from trex:
-
-```console
-trex --custom axios=https://cdn.skypack.dev/axios
-```
-
-this will install axios and it will make it accessible in the import map file:
-
-```json
-{
-  "imports": {
-    "axios": "https://cdn.skypack.dev/axios"
-  }
-}
-```
-
-> **note**: You should know that your dependencies must be compatible with
-> [es modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
-> and with the browser, if you refer to some import maps package and it is not
-> found by the compiler, it will not be transformed, so an error will appear in
-> your browser.
-
-we recommend these sites for you to install your dependencies
-
-- [skypack.dev](https://www.skypack.dev/)
-- [esm.sh](https://esm.sh/)
-- [jsdelivr.com](https://www.jsdelivr.com/)
 
 ## Typescript, Sass and Less support
 
@@ -351,8 +313,8 @@ jobs:
 
       - name: Build
         run: |
-          deno run --allow-run --allow-read https://deno.land/x/snel/install.ts
-          trex run build
+          deno install --name=snel -A -f -r --no-check --unstable https://deno.land/x/snel/cli.ts
+          deno task build
       - name: Upload Artifacts 🔺
         uses: actions/upload-artifact@v1
         with:

@@ -5,20 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { common, resolverConfigFile, showHelp } from "./src/shared/utils.ts";
+import { resolverConfigFile, showHelp } from "./src/shared/utils.ts";
 import { CommandNotFound, HelpCommand } from "./src/shared/log.ts";
-import { notFoundConfig, PromptConfig } from "./src/cli/prompt.ts";
+import { notFoundConfig } from "./src/cli/prompt.ts";
 import { VERSION as svelteVersion } from "compiler";
 import { VERSION as cliVersion } from "./src/shared/version.ts";
 import { flags, keyWords } from "./src/shared/utils.ts";
 import { CreateProject } from "./src/cli/create.ts";
 import StartDev from "./src/cli/commands/start.ts";
-import { RollupBuild } from "./compiler/build.ts";
 import Build from "./src/cli/commands/build.ts";
 import * as colors from "fmt/colors.ts";
 
 const { args: Args } = Deno;
-type Command = "create" | "serve" | "dev" | "build";
+type Command = "create" | "dev" | "build";
 const command = Args[0] as Command;
 
 const instructs = {
@@ -45,8 +44,8 @@ const instructs = {
       }
 
       await CreateProject({
-        ...PromptConfig(),
         projectName,
+        port: 3000,
         workingFolder: Args.length == 1,
       });
     }
@@ -64,30 +63,13 @@ const instructs = {
     } else if (await resolverConfigFile()) await Build();
     else notFoundConfig();
   },
-  // compile in dev mode
+  // start dev server
   async dev() {
     if (flags.help.includes(Args[1])) {
       return HelpCommand({
         command: {
-          alias: [keyWords.build],
-          description: "build application in dev mode",
-        },
-        flags: [{ alias: flags.help, description: "show command help" }],
-      });
-    } else if (await resolverConfigFile()) {
-      console.time(colors.green("Compiled successfully in"));
-      await RollupBuild({ dir: common.dom.dir, entryFile: common.entryFile });
-      console.timeEnd(colors.green("Compiled successfully in"));
-      Deno.exit(0);
-    } else notFoundConfig();
-  },
-  // start dev server
-  async serve() {
-    if (flags.help.includes(Args[1])) {
-      return HelpCommand({
-        command: {
-          alias: [keyWords.serve],
-          description: "build and server in a dev server",
+          alias: [keyWords.dev],
+          description: "build and serve in a dev server",
         },
         flags: [{ alias: flags.help, description: "show command help" }],
       });
@@ -120,8 +102,7 @@ async function Main() {
         commands: [
           keyWords.build,
           keyWords.create,
-          keyWords.dev,
-          keyWords.serve,
+          keyWords.dev
         ],
         flags: [...flags.help, ...flags.version],
       });

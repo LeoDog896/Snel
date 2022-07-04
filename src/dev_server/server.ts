@@ -70,7 +70,7 @@ class BuildServer {
     }
 
     !this.options.https
-      ? serve(req => this.requestHandler(req), {
+      ? serve((req) => this.requestHandler(req), {
         port: this.options.port,
         hostname: this.options.host,
       })

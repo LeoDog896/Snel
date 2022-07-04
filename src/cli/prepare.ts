@@ -42,7 +42,7 @@ export async function Dist() {
   let copy: string;
   try {
     copy = await Deno.readTextFile("./public/index.html");
-  } catch  {
+  } catch {
     throw new Error("index.html not found");
   }
 

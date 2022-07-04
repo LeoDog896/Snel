@@ -12,7 +12,6 @@ import * as colors from "fmt/colors.ts";
 import { Dist } from "../prepare.ts";
 
 export async function Build(config: Partial<snelConfig>) {
-
   const { plugins } = config;
 
   console.log(colors.green("preparing files for production.\n"));
@@ -21,7 +20,7 @@ export async function Build(config: Partial<snelConfig>) {
     dir: common.dom.dir,
     production: true,
     plugins,
-    config
+    config,
   });
 
   await Dist();

@@ -12,8 +12,10 @@ import { Plugin } from "drollup";
 export { terser } from "terser";
 export { default as Svelte } from "./bundler.js";
 
-export function DevServer({ port }: Partial<snelConfig>, ipv4?: string): Plugin | undefined {
-
+export function DevServer(
+  { port }: Partial<snelConfig>,
+  ipv4?: string,
+): Plugin | undefined {
   try {
     return server({
       contentBase: ["public"],

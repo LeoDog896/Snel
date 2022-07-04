@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { compile, preprocess } from "compiler"
+import { compile, preprocess } from "compiler";
 import { compile as scssCompiler } from "scss";
 import { createFilter } from "drollup-util";
 import { tsTranspiler } from "../shared/transpiler.ts";

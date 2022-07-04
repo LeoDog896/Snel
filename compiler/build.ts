@@ -5,14 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  DevServer,
-  Svelte,
-  terser,
-} from "../src/shared/internal_plugins.ts";
-import { rollup, OutputOptions, RollupOptions } from "drollup";
+import { DevServer, Svelte, terser } from "../src/shared/internal_plugins.ts";
+import { OutputOptions, rollup, RollupOptions } from "drollup";
 import type { RollupBuildProps } from "./types.ts";
-import { svelteEntry } from "./svelteEntry.ts"
+import { svelteEntry } from "./svelteEntry.ts";
 
 export async function RollupBuild({
   dir = "./public/dist",
@@ -20,7 +16,7 @@ export async function RollupBuild({
   production = false,
   cache = undefined,
   ipv4,
-  config
+  config,
 }: RollupBuildProps) {
   const defaults = production
     ? [

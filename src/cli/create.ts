@@ -6,18 +6,18 @@
  */
 
 import {
+  buildScript,
+  devScript,
   gitIgnore,
   globalCss,
   Home,
   indexHtml,
   rootSvelte,
-  buildScript,
-  devScript
 } from "./templates.ts";
 import type { CreateProjectOptions } from "../shared/types.ts";
 import { createDir, createFile } from "./io.ts";
 import * as colors from "fmt/colors.ts";
-import { join, toFileUrl } from "path"
+import { join, toFileUrl } from "path";
 import { URL_SVELTE_CDN } from "../shared/version.ts";
 
 export async function CreateProject(options: CreateProjectOptions) {
@@ -31,9 +31,11 @@ export async function CreateProject(options: CreateProjectOptions) {
   if (!workingFolder) await Deno.mkdir(projectRoot, { recursive: true });
 
   const tasks = {
-    dev: "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --import-map=import_map.json ./dev.ts",
-    build: "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --import-map=import_map.json ./build.ts",
-    check: "deno lint && deno fmt"
+    dev:
+      "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --import-map=import_map.json ./dev.ts",
+    build:
+      "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --import-map=import_map.json ./build.ts",
+    check: "deno lint && deno fmt",
   };
 
   // Turns ...URL + "cli.ts" into ...URL
@@ -54,30 +56,34 @@ export async function CreateProject(options: CreateProjectOptions) {
       {
         name: "import_map.json",
         path: projectRoot,
-        source: JSON.stringify({
-          imports: {
-            "snel/": `${root}/`,
-            snel: `${root}/mod.ts`,
-            "snel/core/": `${root}/core/`,
-            "snel/utils/": `${root}/utils/`,
-            "snel/utils": `${root}/utils/mod.ts`,
-            svelte: URL_SVELTE_CDN,
-            "svelte/": `${URL_SVELTE_CDN}/`,
-            "@/": "./",
-            "~/": `${toFileUrl(join(projectRoot, "src")).href}/`,
-            "$/": `${toFileUrl(projectRoot).href}/`,
-          }
-        }, null, 2)
+        source: JSON.stringify(
+          {
+            imports: {
+              "snel/": `${root}/`,
+              snel: `${root}/mod.ts`,
+              "snel/core/": `${root}/core/`,
+              "snel/utils/": `${root}/utils/`,
+              "snel/utils": `${root}/utils/mod.ts`,
+              svelte: URL_SVELTE_CDN,
+              "svelte/": `${URL_SVELTE_CDN}/`,
+              "@/": "./",
+              "~/": `${toFileUrl(join(projectRoot, "src")).href}/`,
+              "$/": `${toFileUrl(projectRoot).href}/`,
+            },
+          },
+          null,
+          2,
+        ),
       },
       {
         name: "build.ts",
         path: projectRoot,
-        source: buildScript
+        source: buildScript,
       },
       {
         name: "dev.ts",
         path: projectRoot,
-        source: devScript
+        source: devScript,
       },
       {
         name: `App.svelte`,
@@ -87,7 +93,7 @@ export async function CreateProject(options: CreateProjectOptions) {
       {
         name: "Home.svelte",
         path: `${projectRoot}/src/components`,
-        source: Home
+        source: Home,
       },
       {
         name: ".gitignore",
@@ -100,12 +106,12 @@ export async function CreateProject(options: CreateProjectOptions) {
         source: JSON.stringify(
           {
             tasks,
-            files: ["./src", "./public/index.html", "./public/global.css"]
+            files: ["./src", "./public/index.html", "./public/global.css"],
           },
           null,
           2,
         ),
-      }
+      },
     ],
     dirs: [
       {
@@ -116,7 +122,7 @@ export async function CreateProject(options: CreateProjectOptions) {
         name: "components",
         path: `${projectRoot}/src`,
       },
-    ]
+    ],
   };
 
   for (const dir of builder.dirs) {

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { join, toFileUrl } from "path"
+import { join, toFileUrl } from "path";
 import * as colors from "fmt/colors.ts";
 
 export const flags = {
@@ -111,7 +111,7 @@ you can see the different options available for each command using:
 export const keyWords = {
   create: "create",
   build: "build",
-  dev: "dev"
+  dev: "dev",
 };
 
 export async function loadConfig<T>(path: string): Promise<T> {
@@ -150,6 +150,7 @@ function parser(type: unknown, deep: number): string {
       return `${type.toString()}`;
 
     // deno-lint-ignore no-fallthrough
+
     case "object":
       if (type instanceof Object && !Array.isArray(type)) {
         return ToString(type as Record<string, any>, deep * 2);

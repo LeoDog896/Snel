@@ -46,7 +46,7 @@ const instructs = {
         workingFolder: Args.length == 1,
       });
     }
-  }
+  },
 };
 
 async function Main() {
@@ -73,7 +73,7 @@ async function Main() {
         commands: [
           keyWords.build,
           keyWords.create,
-          keyWords.dev
+          keyWords.dev,
         ],
         flags: [...flags.help, ...flags.version],
       });

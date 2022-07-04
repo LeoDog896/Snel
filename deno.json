@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "check": "deno lint && deno fmt",
+    "check": "deno lint ; deno fmt",
     "install": "deno install --import-map=import_map.json --name=snel -A -f --no-check --unstable ./cli.ts",
     "info": "deno info ./cli.ts --import-map=import_map.json"
   }

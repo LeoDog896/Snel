@@ -169,7 +169,7 @@ export { config };
 if (import.meta.main) { // run on execute
   await StartDev(config);
 }
-`
+`;
 
 export const gitIgnore = (dir: string) =>
   `/public/dist/

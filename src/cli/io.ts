@@ -9,7 +9,7 @@ import { join } from "path";
 
 export async function createFile(name: string, path: string, source: string) {
   try {
-    await Deno.writeTextFile(join(path, name), source)
+    await Deno.writeTextFile(join(path, name), source);
 
     return true;
   } catch (error: unknown) {

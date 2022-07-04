@@ -8,14 +8,14 @@
 import type { DevServerProps } from "./types.ts";
 import { RollupBuild } from "../../compiler/build.ts";
 import { serverLog } from "../cli/prompt.ts";
-import { open } from "open"
+import { open } from "open";
 
 export async function DevServer({
   port = 3000,
   outDir,
   plugins,
   dirName,
-  localNet
+  localNet,
 }: DevServerProps) {
   serverLog({ port, dirName, localNet });
 
@@ -25,6 +25,6 @@ export async function DevServer({
     production: false,
     dir: outDir,
     plugins,
-    config: { port: Number(port) }
+    config: { port: Number(port) },
   });
 }

@@ -5,17 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  common,
-  ipv4
-} from "../../shared/utils.ts";
+import { common, ipv4 } from "../../shared/utils.ts";
 import { RollupBuild } from "../../../compiler/build.ts";
 import { DevServer } from "../../server_side/server.ts";
 import * as colors from "fmt/colors.ts";
 import { snelConfig } from "../../shared/types.ts";
 
 export async function StartDev(config: Partial<snelConfig>) {
-
   const { port, plugins } = config;
 
   console.log(colors.bold(colors.cyan("starting development server.")));
@@ -38,7 +34,7 @@ export async function StartDev(config: Partial<snelConfig>) {
     dir: outDir,
     plugins,
     ipv4: ipV4!,
-    config
+    config,
   });
 
   // SSG/SSR development server
@@ -47,6 +43,6 @@ export async function StartDev(config: Partial<snelConfig>) {
     outDir,
     plugins: plugins ?? [],
     dirName,
-    localNet
+    localNet,
   });
 }

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { Plugin, RollupBuild } from "drollup"
+import type { Plugin, RollupBuild } from "drollup";
 import { snelConfig } from "../src/shared/types.ts";
 
 export interface compileOptions {

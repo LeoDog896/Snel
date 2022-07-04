@@ -18,7 +18,7 @@ import type { CreateProjectOptions } from "../shared/types.ts";
 import { createDir, createFile } from "./io.ts";
 import * as colors from "fmt/colors.ts";
 import { join, toFileUrl } from "path"
-import { URL_SVELTE_CDN, VERSION } from "../shared/version.ts";
+import { URL_SVELTE_CDN } from "../shared/version.ts";
 
 export async function CreateProject(options: CreateProjectOptions) {
   const { projectName, workingFolder } = options;
@@ -35,6 +35,9 @@ export async function CreateProject(options: CreateProjectOptions) {
     build: "deno run --allow-env --allow-net --allow-read --allow-run --allow-write --unstable --import-map=import_map.json ./build.ts",
     check: "deno lint && deno fmt"
   };
+
+  // Turns ...URL + "cli.ts" into ...URL
+  const root = Deno.mainModule.replace(/\/cli\.ts$/, "");
 
   const builder = {
     files: [
@@ -53,11 +56,11 @@ export async function CreateProject(options: CreateProjectOptions) {
         path: projectRoot,
         source: JSON.stringify({
           imports: {
-            "snel/": `https://deno.land/x/snel@v${VERSION}/`,
-            snel: `https://deno.land/x/snel@v${VERSION}/mod.ts`,
-            "snel/core/": `https://deno.land/x/snel@v${VERSION}/core/`,
-            "snel/utils/": `https://deno.land/x/snel@v${VERSION}/core/utils/`,
-            "snel/utils": `https://deno.land/x/snel@v${VERSION}/core/utils/mod.ts`,
+            "snel/": `${root}/`,
+            snel: `${root}/mod.ts`,
+            "snel/core/": `${root}/core/`,
+            "snel/utils/": `${root}/utils/`,
+            "snel/utils": `${root}/utils/mod.ts`,
             svelte: URL_SVELTE_CDN,
             "svelte/": `${URL_SVELTE_CDN}/`,
             "@/": "./",

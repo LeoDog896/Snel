@@ -6,7 +6,6 @@
  */
 
 import { Bundler, defaultPlugins } from "../../imports/bundler.ts";
-import { ensureFile, exists } from "fs"
 import { basename, join } from "path";
 import { HTMLMinify } from "../shared/utils.ts";
 
@@ -38,13 +37,15 @@ export async function Dist() {
   const plugins = defaultPlugins();
   const bundler = new Bundler(plugins);
 
-  if (!(await exists("./public/index.html"))) {
-    throw new Error("index.html not found").message;
-  }
-
   const entryHtml = "public/__index.html";
 
-  const copy = await Deno.readTextFile("./public/index.html");
+  let copy: string;
+  try {
+    copy = await Deno.readTextFile("./public/index.html");
+  } catch  {
+    throw new Error("index.html not found");
+  }
+
   await Deno.writeTextFile(entryHtml, preprocess(copy));
 
   const { bundles } = await bundler.bundle([entryHtml], {
@@ -76,8 +77,6 @@ export async function Dist() {
       source = (source as string).replace(`<base href="/deps/">`, "");
       source = (source as string).replaceAll(`defer=""`, "defer");
     }
-
-    await ensureFile(output);
 
     if (typeof source === "string") await Deno.writeTextFile(output, source);
     else await Deno.writeFile(output, source as Uint8Array);

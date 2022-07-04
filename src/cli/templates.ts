@@ -156,15 +156,19 @@ export const config = <Partial<snelConfig>>{
   extendsImportMap: [],
 };
 
-if (import.meta.main) {
-  await Build(config)
-};
+if (import.meta.main) { // run on execute
+  await Build(config);
+}
 `;
 
 export const devScript = `import { StartDev } from "snel";
 import { config } from "./build.ts";
 
-await StartDev(config);
+export { config };
+
+if (import.meta.main) { // run on execute
+  await StartDev(config);
+}
 `
 
 export const gitIgnore = (dir: string) =>

@@ -42,13 +42,10 @@ import {
   toFileUrl,
 } from "path"
 import type { NormalizedInputOptions, Plugin } from "drollup";
-import { loadConfig, resolverConfigFile } from "./utils.ts";
 import { ensureArray } from "./imports/ensureArray.ts";
 import { URL_SVELTE_CDN, VERSION } from "./version.ts";
 import { resolveId } from "./imports/resolveId.ts";
 import * as colors from "fmt/colors.ts";
-import type { snelConfig } from "./types.ts";
-import { exists } from "fs";
 
 // store external import maps
 const Cache = new Map<string, string>();
@@ -59,52 +56,45 @@ const Cache = new Map<string, string>();
 async function resolveExternalsImportMaps() {
   const externaMaps: Record<string, string> = {};
 
-  // prevent try to load config when run create command
-  if (
-    (await exists("./snel.config.ts")) || (await exists("./snel.config.js"))
-  ) {
-    // get externals import maps
-    const { extendsImportMap } = await loadConfig<snelConfig>(
-      await resolverConfigFile(),
-    )!;
+  // get externals import maps
+  const { config } = await import(Deno.mainModule)
 
-    if (extendsImportMap && extendsImportMap?.length > 0) {
-      for (const map of extendsImportMap) {
-        if (map.startsWith("http") && map.endsWith(".json")) {
-          // get it from cache
-          if (Cache.has(map)) {
-            const externals = JSON.parse(Cache.get(map)!) as ImportMapObject;
+  if (config.extendsImportMap && config.extendsImportMap?.length > 0) {
+    for (const map of config.extendsImportMap) {
+      if (map.startsWith("http") && map.endsWith(".json")) {
+        // get it from cache
+        if (Cache.has(map)) {
+          const externals = JSON.parse(Cache.get(map)!) as ImportMapObject;
+
+          for (const [key, value] of Object.entries(externals.imports)) {
+            externaMaps[key] = value;
+          }
+        } // load from url and store it in cache
+        else {
+          try {
+            const response = await fetch(map);
+            const data = await response.text();
+
+            const externals = JSON.parse(data) as ImportMapObject;
+            Cache.set(map, data);
 
             for (const [key, value] of Object.entries(externals.imports)) {
               externaMaps[key] = value;
             }
-          } // load from url and store it in cache
-          else {
-            try {
-              const response = await fetch(map);
-              const data = await response.text();
-
-              const externals = JSON.parse(data) as ImportMapObject;
-              Cache.set(map, data);
-
-              for (const [key, value] of Object.entries(externals.imports)) {
-                externaMaps[key] = value;
-              }
-            } catch {
-              throw new Error(
-                colors.red(
-                  `can't load external import map ${colors.yellow(map)}`,
-                ),
-              ).message;
-            }
+          } catch {
+            throw new Error(
+              colors.red(
+                `can't load external import map ${colors.yellow(map)}`,
+              ),
+            ).message;
           }
-        } else {
-          throw new Error(
-            colors.red(
-              `you only can extends remote import maps from http or https`,
-            ),
-          ).message;
         }
+      } else {
+        throw new Error(
+          colors.red(
+            `you only can extends remote import maps from http or https`,
+          ),
+        ).message;
       }
     }
   }
@@ -225,7 +215,7 @@ const validate = (
 /**
  * readFile
  *
- * @param {string} pathname
+ * @param path
  * @param options
  * @private
  */
@@ -248,12 +238,16 @@ const readFile = async (
   };
 
   const importMapPath = normalize(path);
-  const importMapFile = (await exists("./import_map.json"))
-    ? await Deno.readTextFile(importMapPath)
-    : JSON.stringify({
+  let importMapFile: string
+
+  try {
+    importMapFile = await Deno.readTextFile(importMapPath)
+  } catch {
+    importMapFile = JSON.stringify({
       imports: { ...defaultImports },
       scopes: {},
     });
+  }
 
   const { imports, scopes } = JSON.parse(importMapFile);
   const importsFallback = imports ?? {};

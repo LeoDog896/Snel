@@ -7,7 +7,6 @@
 
 import { join, toFileUrl } from "path"
 import * as colors from "fmt/colors.ts";
-import { exists } from "fs";
 
 export const flags = {
   help: ["--help", "-h"],
@@ -192,25 +191,4 @@ export function HTMLMinify(code: string): string {
   }
 
   return code.replaceAll("\n", "");
-}
-
-export async function resolverConfigFile(): Promise<string> {
-  const ts = await exists("./snel.config.ts");
-  const js = await exists("./snel.config.js");
-
-  if (js && ts) {
-    throw new Error(
-      colors.red(
-        "you only can have one snel config file, snel.config.js or snel.config.ts",
-      ),
-    ).message;
-  } else if (js) {
-    return "./snel.config.js";
-  } else if (ts) {
-    return "./snel.config.ts";
-  } else {
-    throw new Error(
-      colors.red("can't load snel config file, not found in the root project"),
-    ).message;
-  }
 }

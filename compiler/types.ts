@@ -6,6 +6,7 @@
  */
 
 import type { Plugin, RollupBuild } from "drollup"
+import { snelConfig } from "../src/shared/types.ts";
 
 export interface compileOptions {
   filename?: string;
@@ -111,4 +112,5 @@ export interface RollupBuildProps {
   production?: boolean;
   ipv4?: string;
   cache?: undefined | RollupBuild["cache"];
+  config: Partial<snelConfig>;
 }

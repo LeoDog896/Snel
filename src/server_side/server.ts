@@ -25,5 +25,6 @@ export async function DevServer({
     production: false,
     dir: outDir,
     plugins,
+    config: { port: Number(port) }
   });
 }

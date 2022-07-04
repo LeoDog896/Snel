@@ -7,7 +7,6 @@
 
 import {
   DevServer,
-  ImportMapPlugin,
   Svelte,
   terser,
 } from "../src/shared/internal_plugins.ts";
@@ -21,23 +20,18 @@ export async function RollupBuild({
   production = false,
   cache = undefined,
   ipv4,
+  config
 }: RollupBuildProps) {
   const defaults = production
     ? [
-      ImportMapPlugin({
-        maps: "./import_map.json",
-      }),
       ...plugins,
       svelteEntry(),
       Svelte(),
       terser(),
     ]
     : [
-      ImportMapPlugin({
-        maps: "./import_map.json",
-      }),
       ...plugins,
-      (await DevServer(ipv4))!,
+      DevServer(config!, ipv4)!,
       svelteEntry(),
       Svelte({ dev: true }),
       terser(),

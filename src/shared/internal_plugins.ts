@@ -5,24 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { loadConfig, resolverConfigFile } from "./utils.ts";
 import type { snelConfig } from "../shared/types.ts";
 import server from "../dev_server/server.ts";
 import { Plugin } from "drollup";
 
 export { terser } from "terser";
 export { default as Svelte } from "./bundler.js";
-export * from "./import_map.ts";
 
-export async function DevServer(ipv4?: string): Promise<Plugin | undefined> {
-  const { port } = await loadConfig<snelConfig>(
-    await resolverConfigFile(),
-  )!;
+export function DevServer({ port }: Partial<snelConfig>, ipv4?: string): Plugin | undefined {
 
   try {
     return server({
       contentBase: ["public"],
-      port,
+      port: port ?? 3000,
       host: "0.0.0.0",
       verbose: false,
       historyApiFallback: true,

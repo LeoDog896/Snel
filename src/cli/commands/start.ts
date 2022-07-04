@@ -14,7 +14,9 @@ import { DevServer } from "../../server_side/server.ts";
 import * as colors from "fmt/colors.ts";
 import { snelConfig } from "../../shared/types.ts";
 
-export async function StartDev({ port, plugins }: Partial<snelConfig>) {
+export async function StartDev(config: Partial<snelConfig>) {
+
+  const { port, plugins } = config;
 
   console.log(colors.bold(colors.cyan("starting development server.")));
 
@@ -36,6 +38,7 @@ export async function StartDev({ port, plugins }: Partial<snelConfig>) {
     dir: outDir,
     plugins,
     ipv4: ipV4!,
+    config
   });
 
   // SSG/SSR development server
